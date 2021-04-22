@@ -1,1 +1,0 @@
-{"ast":null,"code":"export { default } from 'src/pages/articles';","map":{"version":3,"sources":["/Users/scott.cox/Git/my-app/src/pages/index.tsx"],"names":["default"],"mappings":"AAAA,SAASA,OAAT,QAAwB,oBAAxB","sourcesContent":["export { default } from 'src/pages/articles';"]},"metadata":{},"sourceType":"module"}
