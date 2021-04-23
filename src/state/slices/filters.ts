@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    search: '',
-    tag: '',
+    artists: {
+        search: '',
+    },
+    artist: {
+        sort: 'year',
+        sortOrder: 'desc',
+    }    
 };
 
 const filtersSlice = createSlice({

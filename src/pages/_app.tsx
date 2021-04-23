@@ -17,7 +17,6 @@ export const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <Page>
-          <button type="button" onClick={() => console.log(store.getState())}>State</button>
           <Component {...pageProps} />
         </Page>
       </Provider>

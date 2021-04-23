@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import store from 'src/state';
 import styled from 'styled-components';
 
 const StyledNav = styled.nav`
@@ -15,13 +14,10 @@ const StyledNav = styled.nav`
 
 export const Navigation = () => (
     <StyledNav>
-        <Link href="/articles">
-            <a>Articles</a>
+        <Link href="/artists">
+            <a>Artists</a>
         </Link>
-        <Link href="/write">
-            <a>Write</a>
-        </Link>
-        <button type="button" onClick={() => { console.log('state', store.getState()) }}>State</button>
+        {/* <button type="button" onClick={() => { console.log('state', store.getState()) }}>State</button> */}
     </StyledNav>
 )
 

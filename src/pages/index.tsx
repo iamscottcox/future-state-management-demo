@@ -1,1 +1,1 @@
-export { default } from 'src/pages/articles';
+export { default } from 'src/pages/artists';
