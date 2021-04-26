@@ -3,11 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     artists: {
         search: '',
-    },
-    artist: {
-        sort: 'year',
-        sortOrder: 'desc',
-    }    
+    }
 };
 
 const filtersSlice = createSlice({

@@ -28,7 +28,7 @@ export const ArticlesPage: FC<Props> = ({ search, setSearch }) => {
 
   const handleSearchSubmit = (value: string) => {
     setSearch(value);
-    router.push('/artists')
+    router.replace('/artists', undefined, { scroll: false });
   }
 
   return (

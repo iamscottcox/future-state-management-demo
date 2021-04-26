@@ -36,9 +36,9 @@ export const Releases: FC<Props> = ({ error, releases = [], isLoading = false })
                     <p>Loading....</p>
                 ) : (
                     releases.map((release) => {
-                        const { id, title, thumb, year } = release;
+                        const { id, title, thumb, year, main_release: mainRelease } = release;
                         return (
-                            <StyledRelease key={id}>
+                            <StyledRelease key={`${mainRelease}-${id}`}>
                             <img
                                 className="artists-list-item-image"
                                 src={

@@ -1,11 +1,14 @@
 import { useRouter } from "next/dist/client/router";
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import styled from "styled-components";
 
+import { Select } from "src/components/Filters/Select";
 import { Pagination } from "src/components/Pagination";
 import Releases from "src/components/Releases";
 import { useArtistById } from "src/hooks/artists";
 import { useReleases } from "src/hooks/releases";
+import { getPrimaryArtistImage } from 'src/libs/artists';
+import { createNewPath } from "src/libs/paths";
 
 const StyledArtist = styled.div`
     .jumbotron {
@@ -22,21 +25,31 @@ const StyledArtist = styled.div`
 const artistFallback = { name: '', realname: '', images: []}
 const artistImageFallback = { uri: '' }
 
-const getPrimaryArtistImage = (state: API.ArtistImage[]) => state.find((image) => image.type === 'primary');
-
-export const ArtistPage = () => {
+export const ArtistPage: FC = () => {
     const router = useRouter();
-    const id = router.query.id as string || '';
+    const id = router.query.id as string;
     const page = parseInt(router.query.page as string || '1');
-    const { data: releasesData, isLoading: releasesIsLoading, error: releasesError } = useReleases({ id, pageNumber: page });
+    const sort = router.query.sort as string;
+    const sortOrder = router.query.sortOrder as string;
+
+    const { data: releasesData, isLoading: releasesIsLoading, error: releasesError } = useReleases({ id, pageNumber: page, sort, sortOrder });
     const { data: artistData, isLoading: artistIsLoading, error: artistError } = useArtistById({ id });
     
-    const {name, images, realname } = artistData || artistFallback;
-
+    const { name, images, realname } = artistData || artistFallback;
     const { uri } = useMemo(() => getPrimaryArtistImage(images) || artistImageFallback, [images])
-
+    
     if (artistIsLoading) return <p>Loading...</p>;
     if (artistError) return <p>There was an error: {artistError.message}</p>;
+
+    const handleSortTypeChange = (value: string) => {
+        const newPath = createNewPath({ key: 'sort', value });
+        router.replace(newPath, undefined, { scroll: false });
+    }
+
+    const handleSortDirectionChange = (value: string) => {
+        const newPath = createNewPath({ key: 'sortOrder', value });
+        router.replace(newPath, undefined, { scroll: false });
+    }
 
     return (
         <StyledArtist>
@@ -48,6 +61,17 @@ export const ArtistPage = () => {
             <div className="releases">
                 <h2>Releases</h2>
                 <Pagination page={page} pages={releasesData?.pagination?.pages} />
+                <div className="filters">
+                    <Select value={sort} onChange={handleSortTypeChange}>
+                        <option value='year'>Year</option>
+                        <option value='title'>Title</option>
+                        <option value='format'>Format</option>
+                    </Select>
+                    <Select value={sortOrder} onChange={handleSortDirectionChange}>
+                        <option value='desc'>Descending</option>
+                        <option value='asc'>Ascending</option>
+                    </Select>
+                </div>
                 <Releases releases={releasesData?.releases} isLoading={releasesIsLoading} error={releasesError} />
             </div>
         </StyledArtist>
