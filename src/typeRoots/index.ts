@@ -20,11 +20,42 @@ declare namespace API {
       releases?: T;
     }
   
-    export interface Artist {
+    export interface ArtistPreview {
       title: string;
       cover_image: string;
       thumb: string;
       id: string;
+    }
+
+    interface ArtistImage {
+      height: number;
+      resource_url: string;
+      type: string;
+      uri: string;
+      uri150: string;
+      width: number;
+    }
+
+    interface ArtistMember {
+      active: boolean;
+      id: number;
+      name: string;
+      resource_url: string;
+    }
+
+    export interface Artist {
+      name: string;
+      realname: string;
+      namevariations: string[];
+      profile: string;
+      releases_url: string;
+      resource_url: string;
+      uri: string;
+      urls: string[];
+      data_quality: string;
+      id: number;
+      images: ArtistImage[];
+      members: ArtistMember[];
     }
   
     export interface Release {

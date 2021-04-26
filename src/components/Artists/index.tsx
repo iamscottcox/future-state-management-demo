@@ -40,7 +40,7 @@ import styled from 'styled-components';
 interface OwnProps {
     isLoading?: UseQueryResult['isLoading'];
     error: Error | null;
-    artists?: API.Artist[];
+    artists?: API.ArtistPreview[];
 }
 
 type Props = OwnProps;

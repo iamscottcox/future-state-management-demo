@@ -1,4 +1,4 @@
-export interface FetchReleasesOptions { id: string, sort?: string, sortOrder?: string, pageNumber?: string }
+export interface FetchReleasesOptions { id: string, sort?: string, sortOrder?: string, pageNumber?: number }
 
 export type FetchReleasesQueryKey = [string, FetchReleasesOptions];
 

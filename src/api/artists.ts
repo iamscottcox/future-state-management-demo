@@ -6,7 +6,7 @@ export interface FetchArtistsParams {
   queryKey: FetchArtistsQueryKey;
 }
 
-export const fetchArtists = async ({ queryKey }: FetchArtistsParams): Promise<API.Response<API.Artist[]>> => { 
+export const fetchArtists = async ({ queryKey }: FetchArtistsParams): Promise<API.Response<API.ArtistPreview[]>> => { 
   const [, { search, pageNumber = 1 }] = queryKey
 
   try {
@@ -22,6 +22,30 @@ export const fetchArtists = async ({ queryKey }: FetchArtistsParams): Promise<AP
   } catch(error) {
     return error;
   }
+}
+
+export interface FetchArtistByIdOptions { id: string }
+export type FetchArtistByIdQueryKey = [string, FetchArtistByIdOptions];
+export interface FetchArtistByIdParams {
+  queryKey: FetchArtistByIdQueryKey;
+}
+
+export const fetchArtistById = async ({queryKey}: FetchArtistByIdParams): Promise<API.Artist> => {
+  const [, { id }] = queryKey;
+
+    try {
+      const response = await fetch(`https://api.discogs.com/artists/${id}`, {
+        headers: {
+          Authorization: `Discogs token=jFjPgGkhDPUtSJbONaeKkMsPsmdbcbfEORRVAVlj`,
+        }
+      });
+  
+      const artist = await response.json();
+  
+      return artist;
+    } catch(error) {
+      return error;
+    }
 }
 
 export default fetchArtists;
