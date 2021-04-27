@@ -11,11 +11,11 @@ interface StateProps {
   draft: AppState['drafts']['write'];
 }
 interface DispatchProps {
-    setDraft: (draft: AppState['drafts']['write']) => void;
+  setDraft: (draft: AppState['drafts']['write']) => void;
 }
 interface OwnProps {}
 
-type Props = StateProps & DispatchProps & OwnProps
+type Props = StateProps & DispatchProps & OwnProps;
 
 const StyledWritePage = styled.div`
   form {
@@ -42,7 +42,7 @@ const StyledWritePage = styled.div`
       margin-bottom: 1rem;
     }
   }
-`
+`;
 
 export const WritePage: FC<Props> = ({ draft, setDraft }) => {
   const { title: draftTitle, body: draftBody } = draft;
@@ -52,26 +52,45 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
 
   const editingTitle = useMemo(() => title !== '', [title]);
   const editingBody = useMemo(() => body !== '', [body]);
-  const isDraft = useMemo(() => editingTitle || editingBody, [editingTitle, editingBody]);
+  const isDraft = useMemo(() => editingTitle || editingBody, [
+    editingTitle,
+    editingBody,
+  ]);
 
   useWillUnmount(() => {
     setDraft({ title, body });
-  })
+  });
 
   return (
     <StyledWritePage>
-      {isDraft && (
-        <p>This article is being edited</p>
-      )}
+      {isDraft && <p>This article is being edited</p>}
       <form>
-        <label className={editingTitle ? 'editing' : ''} htmlFor="write-title">Title <span className="editing-icon">!</span></label>
-        <input id="write-title" value={title} onChange={(e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)} />
-        <label className={editingBody ? 'editing' : ''}htmlFor="write-body">Body <span className="editing-icon">!</span></label>
-        <textarea id="write-body" value={body} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setBody(e.target.value)}>{body}</textarea>
+        <label className={editingTitle ? 'editing' : ''} htmlFor="write-title">
+          Title <span className="editing-icon">!</span>
+        </label>
+        <input
+          id="write-title"
+          value={title}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setTitle(e.target.value)
+          }
+        />
+        <label className={editingBody ? 'editing' : ''} htmlFor="write-body">
+          Body <span className="editing-icon">!</span>
+        </label>
+        <textarea
+          id="write-body"
+          value={body}
+          onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+            setBody(e.target.value)
+          }
+        >
+          {body}
+        </textarea>
       </form>
     </StyledWritePage>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state: AppState): StateProps => ({
   draft: getWriteDraft(state),
@@ -79,7 +98,7 @@ const mapStateToProps = (state: AppState): StateProps => ({
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
   setDraft(draft) {
     dispatch(setDraft({ write: draft }));
-  }
-})
+  },
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(WritePage)
+export default connect(mapStateToProps, mapDispatchToProps)(WritePage);
