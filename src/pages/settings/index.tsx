@@ -43,7 +43,11 @@ export const SettingsPage: FC<Props> = ({
           onChange={setDefaultCurrency}
         >
           {currencies.map((currency) => {
-            return <option value={currency}>{currency}</option>;
+            return (
+              <option key={currency} value={currency}>
+                {currency}
+              </option>
+            );
           })}
         </select>
       </div>

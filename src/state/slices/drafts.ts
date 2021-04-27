@@ -1,26 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    write: {
-        title: '',
-        body: '',
-    }
+  write: {
+    title: '',
+    body: '',
+  },
 };
 
 const draftsSlice = createSlice({
-    name: 'drafts',
-    initialState,
-    reducers: {
-        setDraft(state, { payload }) {
-            console.log('payload', payload)
-            
-            return {
-                ...state,
-                ...payload,
-            }
-        }
+  name: 'drafts',
+  initialState,
+  reducers: {
+    setDraft(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
     },
-})
+  },
+});
 
-export const { setDraft } = draftsSlice.actions;{}
-export default draftsSlice.reducer
+export const { setDraft } = draftsSlice.actions;
+export default draftsSlice.reducer;
