@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { loadState, saveState } from 'src/state/localStorage';
+import drafts from 'src/state/slices/drafts';
 import filters from 'src/state/slices/filters';
 
 const preloadedState = loadState();
 
 export const store = configureStore({
     reducer: {
+        drafts,
         filters,
     },
     preloadedState,

@@ -27,3 +27,8 @@ export const createNewPath = (newSearchParams: SearchParam[] | SearchParam) => {
 
     return `${splitRoute}?${searchParams.toString()}`;
 }
+
+export const replacePath = (router: NextRouter) => (key: string) => (value: string) => {
+    const newPath = createNewPath({ key, value });
+    router.replace(newPath, undefined, { scroll: false });
+}

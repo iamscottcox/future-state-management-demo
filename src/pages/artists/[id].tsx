@@ -1,4 +1,4 @@
-import { useRouter } from "next/dist/client/router";
+import { NextRouter, useRouter } from "next/dist/client/router";
 import { FC, useMemo } from "react";
 import styled from "styled-components";
 
@@ -8,7 +8,7 @@ import Releases from "src/components/Releases";
 import { useArtistById } from "src/hooks/artists";
 import { useReleases } from "src/hooks/releases";
 import { getPrimaryArtistImage } from 'src/libs/artists';
-import { createNewPath } from "src/libs/paths";
+import { replacePath } from "src/libs/paths";
 
 const StyledArtist = styled.div`
     .jumbotron {
@@ -32,6 +32,8 @@ export const ArtistPage: FC = () => {
     const sort = router.query.sort as string;
     const sortOrder = router.query.sortOrder as string;
 
+    const handleReplacePath = replacePath(router);
+
     const { data: releasesData, isLoading: releasesIsLoading, error: releasesError } = useReleases({ id, pageNumber: page, sort, sortOrder });
     const { data: artistData, isLoading: artistIsLoading, error: artistError } = useArtistById({ id });
     
@@ -40,16 +42,6 @@ export const ArtistPage: FC = () => {
     
     if (artistIsLoading) return <p>Loading...</p>;
     if (artistError) return <p>There was an error: {artistError.message}</p>;
-
-    const handleSortTypeChange = (value: string) => {
-        const newPath = createNewPath({ key: 'sort', value });
-        router.replace(newPath, undefined, { scroll: false });
-    }
-
-    const handleSortDirectionChange = (value: string) => {
-        const newPath = createNewPath({ key: 'sortOrder', value });
-        router.replace(newPath, undefined, { scroll: false });
-    }
 
     return (
         <StyledArtist>
@@ -62,12 +54,12 @@ export const ArtistPage: FC = () => {
                 <h2>Releases</h2>
                 <Pagination page={page} pages={releasesData?.pagination?.pages} />
                 <div className="filters">
-                    <Select value={sort} onChange={handleSortTypeChange}>
+                    <Select value={sort} onChange={handleReplacePath('sort')}>
                         <option value='year'>Year</option>
                         <option value='title'>Title</option>
                         <option value='format'>Format</option>
                     </Select>
-                    <Select value={sortOrder} onChange={handleSortDirectionChange}>
+                    <Select value={sortOrder} onChange={handleReplacePath('sortOrder')}>
                         <option value='desc'>Descending</option>
                         <option value='asc'>Ascending</option>
                     </Select>
