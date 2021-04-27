@@ -20,6 +20,9 @@ export const Navigation = () => (
         <Link href="/write">
             <a>Write</a>
         </Link>
+        <Link href="/settings">
+            <a>🔧</a>
+        </Link>
         <button type="button" onClick={() => { console.log('state', store.getState()) }}>State</button>
         <button type="button" onClick={() => { localStorage.clear() }}>Clear Local Storage</button>
     </StyledNav>
