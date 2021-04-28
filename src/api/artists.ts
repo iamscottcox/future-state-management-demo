@@ -33,7 +33,7 @@ export const fetchArtists = async ({
 };
 
 export interface FetchArtistByIdOptions {
-  id: string;
+  id?: string;
 }
 export type FetchArtistByIdQueryKey = [string, FetchArtistByIdOptions];
 export interface FetchArtistByIdParams {
@@ -44,6 +44,10 @@ export const fetchArtistById = async ({
   queryKey,
 }: FetchArtistByIdParams): Promise<API.Artist> => {
   const [, { id }] = queryKey;
+
+  if (id === undefined) {
+    return Promise.reject('No ID specified');
+  }
 
   try {
     const response = await fetch(`https://api.discogs.com/artists/${id}`, {

@@ -40,7 +40,7 @@ export const replacePath = (router: NextRouter) => (key: string) => (
 
 export const parseSearchQuery = (
   searchQuery: string | string[],
-  defaultValue = ''
+  defaultValue?: string
 ) => {
   if (!searchQuery) {
     return defaultValue;

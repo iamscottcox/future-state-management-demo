@@ -28,9 +28,9 @@ const artistImageFallback = { uri: '' };
 export const ArtistPage: FC = () => {
   const router = useRouter();
   const id = parseSearchQuery(router.query.id);
-  const page = parseInt(parseSearchQuery(router.query.page, '1'));
-  const sort = parseSearchQuery(router.query.sort);
-  const sortOrder = parseSearchQuery(router.query.sortOrder);
+  const page = parseInt(parseSearchQuery(router.query.page) || '1');
+  const sort = parseSearchQuery(router.query.sort, 'year');
+  const sortOrder = parseSearchQuery(router.query.sortOrder, 'desc');
 
   const handleReplacePath = replacePath(router);
 
