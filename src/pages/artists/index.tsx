@@ -1,53 +1,36 @@
-import { useRouter } from 'next/dist/client/router'
-import { FC } from 'react'
-import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
+import { useRouter } from 'next/dist/client/router';
+import { FC, useContext } from 'react';
 
-import { Artists } from 'src/components/Artists'
-import Search from 'src/components/Filters/Search'
-import { Pagination } from 'src/components/Pagination'
-import { getArtistsSearchValue } from 'src/getters/filters'
-import { useArtists } from 'src/hooks/artists'
-import { AppState } from 'src/state'
-import { setFilter } from 'src/state/slices/filters'
+import { Artists } from 'src/components/Artists';
+import Search from 'src/components/Filters/Search';
+import { Pagination } from 'src/components/Pagination';
+import { useArtists } from 'src/hooks/artists';
+import { parseSearchQuery } from 'src/libs/paths';
+import { ArtistSearchContext } from 'src/state/contexts/artistSearch';
 
-interface StateProps {
-    search: AppState['filters']['artists']['search'];
-}
+export const ArticlesPage: FC = () => {
+  const { artistSearch, setArtistSearch } = useContext(ArtistSearchContext);
 
-interface DispatchProps {
-    setSearch: (value: StateProps['search']) => void;
-}
+  const router = useRouter();
+  const page = parseInt(parseSearchQuery(router.query.page));
 
-type Props = StateProps & DispatchProps;
-
-export const ArticlesPage: FC<Props> = ({ search, setSearch }) => {
-  const router = useRouter()
-  const page = parseInt(router.query.page as string || '1');
-  const { isLoading, data, error } = useArtists({ search, pageNumber: page })
+  const { isLoading, data, error } = useArtists({
+    search: artistSearch,
+    pageNumber: page,
+  });
 
   const handleSearchSubmit = (value: string) => {
-    setSearch(value);
+    setArtistSearch(value);
     router.replace('/artists', undefined, { scroll: false });
-  }
+  };
 
   return (
     <div>
-        <Search initialValue={search} onSubmit={handleSearchSubmit}/>
-        <Pagination page={page} pages={data?.pagination?.pages} />
-        <Artists artists={data?.results} isLoading={isLoading} error={error} />
+      <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />
+      <Pagination page={page} pages={data?.pagination?.pages} />
+      <Artists artists={data?.results} isLoading={isLoading} error={error} />
     </div>
-  )
-}
+  );
+};
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  search: getArtistsSearchValue(state),
-})
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  setSearch(value) {
-    dispatch(setFilter({ artists: { search: value } }));
-  }
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ArticlesPage)
+export default ArticlesPage;

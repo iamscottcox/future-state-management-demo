@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { PersistGate } from 'redux-persist/integration/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
@@ -8,6 +8,7 @@ import reportWebVitals from 'src/reportWebVitals';
 import { Page } from 'src/components/Page';
 
 import store, { persistor } from 'src/state';
+import { ArtistSearchContextProvider } from 'src/state/contexts/artistSearch';
 
 import 'src/styles.css';
 
@@ -18,9 +19,11 @@ export const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <Page>
-            <Component {...pageProps} />
-          </Page>
+          <ArtistSearchContextProvider>
+            <Page>
+              <Component {...pageProps} />
+            </Page>
+          </ArtistSearchContextProvider>
         </PersistGate>
       </Provider>
     </QueryClientProvider>
