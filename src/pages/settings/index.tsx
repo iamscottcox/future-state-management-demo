@@ -133,7 +133,7 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
     dispatch(setDefaultRegion(e.target.value));
   },
   setShowCurrencySymbol(e) {
-    dispatch(setShowCurrencySymbol(e.target.value));
+    dispatch(setShowCurrencySymbol(e.target.checked));
   },
 });
 
