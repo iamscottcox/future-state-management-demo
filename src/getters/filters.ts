@@ -1,3 +1,4 @@
-import { AppState } from 'src/state'
+import { AppState } from 'src/state';
 
-export const getArtistsSearchValue = (state: AppState) => state.filters.artists.search;
+export const getArtistsSearchValue = (state: AppState) =>
+  state.filters.artists.search;
