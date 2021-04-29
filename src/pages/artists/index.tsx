@@ -23,21 +23,24 @@ export const ArticlesPage: FC = () => {
     perPage,
   });
 
-  const handleSearchSubmit = (value: string) => {
-    setArtistSearch(value);
-    router.replace('/artists', undefined, { scroll: false });
-  };
-
-  const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const handlePerPageChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setPerPage(e.target.value);
     router.replace('/artists', undefined, { scroll: false });
   };
 
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setArtistSearch(e.target.value);
+  };
+
   return (
     <div>
-      <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />
+      <Search onChange={handleSearchChange} value={artistSearch} />
       <label htmlFor="per-page-select">Results Per Page:</label>
-      <select id="per-page-select" value={perPage} onChange={handleOnChange}>
+      <select
+        id="per-page-select"
+        value={perPage}
+        onChange={handlePerPageChange}
+      >
         <option value="10">10</option>
         <option value="25">25</option>
         <option value="50">50</option>
