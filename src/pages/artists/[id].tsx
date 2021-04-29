@@ -48,7 +48,7 @@ export const ArtistPage: FC = () => {
 
   const { name, images, realname } = artistData || artistFallback;
   const { uri } = useMemo(
-    () => getPrimaryArtistImage(images) || artistImageFallback,
+    () => getPrimaryArtistImage(images || []) || artistImageFallback,
     [images]
   );
 

@@ -1,20 +1,31 @@
+import { TablePagination } from '@material-ui/core';
 import { useRouter } from 'next/dist/client/router';
-import { ChangeEvent, FC, useContext } from 'react';
+import { FC, useContext } from 'react';
 
 import { Artists } from 'src/components/Artists';
 import Search from 'src/components/Filters/Search';
-import { Pagination } from 'src/components/Pagination';
 import { useArtists } from 'src/hooks/artists';
-import { parseSearchQuery } from 'src/libs/paths';
+import { createNewPath, parseSearchQuery } from 'src/libs/paths';
 import { ArtistSearchContext } from 'src/state/contexts/artistSearch';
+import styled from 'styled-components';
 
-export const ArticlesPage: FC = () => {
+const StyledArtistsPage = styled.div`
+  .filters {
+    display: flex;
+    margin-bottom: 2rem;
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+  }
+`;
+
+export const ArtistsPage: FC = () => {
   const { artistSearch, setArtistSearch, perPage, setPerPage } = useContext(
     ArtistSearchContext
   );
 
   const router = useRouter();
-
   const page = parseInt(parseSearchQuery(router.query.page) || '1');
 
   const { isLoading, data, error } = useArtists({
@@ -23,33 +34,36 @@ export const ArticlesPage: FC = () => {
     perPage,
   });
 
-  const handlePerPageChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setPerPage(e.target.value);
-    router.replace('/artists', undefined, { scroll: false });
+  const handleSearchSubmit = (value: string) => {
+    setArtistSearch(value);
+    router.replace(createNewPath({ key: 'page', value: 1 }));
   };
 
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setArtistSearch(e.target.value);
-  };
+  const pages = data?.pagination?.items || 0;
 
   return (
-    <div>
-      <Search onChange={handleSearchChange} value={artistSearch} />
-      <label htmlFor="per-page-select">Results Per Page:</label>
-      <select
-        id="per-page-select"
-        value={perPage}
-        onChange={handlePerPageChange}
-      >
-        <option value="10">10</option>
-        <option value="25">25</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-      </select>
-      <Pagination page={page} pages={data?.pagination?.pages} />
+    <StyledArtistsPage>
+      <div className="filters">
+        <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />
+        <div className="spacer" />
+        <TablePagination
+          align="left"
+          component="div"
+          count={data?.pagination?.items || 0}
+          page={pages === 0 ? 0 : page - 1}
+          onChangePage={(e, page) => {
+            router.replace(createNewPath({ key: 'page', value: page + 1 }));
+          }}
+          rowsPerPage={parseInt(perPage)}
+          onChangeRowsPerPage={(e) => {
+            setPerPage(e.target.value);
+            router.replace(createNewPath({ key: 'page', value: 1 }));
+          }}
+        />
+      </div>
       <Artists artists={data?.results} isLoading={isLoading} error={error} />
-    </div>
+    </StyledArtistsPage>
   );
 };
 
-export default ArticlesPage;
+export default ArtistsPage;
