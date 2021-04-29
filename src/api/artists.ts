@@ -1,6 +1,7 @@
 export interface FetchArtistsOptions {
   search: string;
   pageNumber?: number;
+  perPage?: string;
 }
 
 export type FetchArtistsQueryKey = [string, FetchArtistsOptions];
@@ -12,11 +13,11 @@ export interface FetchArtistsParams {
 export const fetchArtists = async ({
   queryKey,
 }: FetchArtistsParams): Promise<API.Response<API.ArtistPreview[]>> => {
-  const [, { search, pageNumber = 1 }] = queryKey;
+  const [, { search = '', pageNumber = 1, perPage = '100' }] = queryKey;
 
   try {
     const response = await fetch(
-      `https://api.discogs.com/database/search?q=${search}&type=artist&per_page=100&page=${pageNumber}`,
+      `https://api.discogs.com/database/search?q=${search}&type=artist&per_page=${perPage}&page=${pageNumber}`,
       {
         headers: {
           Authorization: `Discogs token=jFjPgGkhDPUtSJbONaeKkMsPsmdbcbfEORRVAVlj`,

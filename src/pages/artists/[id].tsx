@@ -1,4 +1,4 @@
-import { NextRouter, useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/dist/client/router';
 import { FC, useMemo } from 'react';
 import styled from 'styled-components';
 
@@ -27,12 +27,13 @@ const artistImageFallback = { uri: '' };
 
 export const ArtistPage: FC = () => {
   const router = useRouter();
-  const id = parseSearchQuery(router.query.id);
-  const page = parseInt(parseSearchQuery(router.query.page) || '1');
-  const sort = parseSearchQuery(router.query.sort, 'year');
-  const sortOrder = parseSearchQuery(router.query.sortOrder, 'desc');
-
   const handleReplacePath = replacePath(router);
+  const { query } = router;
+
+  const id = parseSearchQuery(query.id);
+  const page = parseInt(parseSearchQuery(query.page) || '1');
+  const sort = parseSearchQuery(query.sort);
+  const sortOrder = parseSearchQuery(query.sortOrder);
 
   const {
     data: releasesData,
@@ -65,12 +66,22 @@ export const ArtistPage: FC = () => {
         <h2>Releases</h2>
         <Pagination page={page} pages={releasesData?.pagination?.pages} />
         <div className="filters">
-          <Select value={sort} onChange={handleReplacePath('sort')}>
+          <Select
+            value={sort}
+            onChange={(value) => {
+              handleReplacePath({ key: 'sort', value });
+            }}
+          >
             <option value="year">Year</option>
             <option value="title">Title</option>
             <option value="format">Format</option>
           </Select>
-          <Select value={sortOrder} onChange={handleReplacePath('sortOrder')}>
+          <Select
+            value={sortOrder}
+            onChange={(value) => {
+              handleReplacePath({ key: 'sortOrder', value });
+            }}
+          >
             <option value="desc">Descending</option>
             <option value="asc">Ascending</option>
           </Select>

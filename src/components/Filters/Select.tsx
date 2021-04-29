@@ -1,25 +1,25 @@
-import { ChangeEvent, FC } from "react";
+import { ChangeEvent, FC } from 'react';
 
 export interface Option {
-    value: string;
-    text?: string;
+  value: string;
+  text?: string;
 }
 
 interface OwnProps {
-    value: string;
-    onChange: (value: string) => void;
+  value?: string;
+  onChange: (value: string) => void;
 }
 
 type Props = OwnProps;
 
-export const Select: FC<Props> = ({ onChange, children }) => {
-    const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        onChange(e.target.value);
-    }
+export const Select: FC<Props> = ({ value, onChange, children }) => {
+  const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    onChange(e.target.value);
+  };
 
-    return (
-        <select onChange={handleOnChange}>
-            {children}
-        </select>
-    );
-}
+  return (
+    <select value={value} onChange={handleOnChange}>
+      {children}
+    </select>
+  );
+};
