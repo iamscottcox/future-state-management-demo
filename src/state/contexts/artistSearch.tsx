@@ -1,6 +1,6 @@
 /*eslint @typescript-eslint/no-empty-function: "off"*/
-import { useDidMount } from 'beautiful-react-hooks';
-import { createContext, FC, useState } from 'react';
+import { useRouter } from 'next/dist/client/router';
+import { createContext, FC, useEffect, useState } from 'react';
 
 export const ArtistSearchContext = createContext({
   artistSearch: '',
@@ -10,13 +10,16 @@ export const ArtistSearchContext = createContext({
 });
 
 export const ArtistSearchContextProvider: FC = ({ children }) => {
+  const { isReady } = useRouter();
   const [artistSearch, setArtistSearch] = useState('');
   const [perPage, setPerPage] = useState('100');
 
-  useDidMount(() => {
-    setArtistSearch(localStorage.getItem('artistSearch') || artistSearch);
-    setPerPage(localStorage.getItem('artistPerPage') || perPage);
-  });
+  useEffect(() => {
+    if (isReady) {
+      setArtistSearch(localStorage.getItem('artistSearch') || artistSearch);
+      setPerPage(localStorage.getItem('artistPerPage') || perPage);
+    }
+  }, [isReady]);
 
   return (
     <ArtistSearchContext.Provider

@@ -1,26 +1,29 @@
-import { FC, FormEvent, useState } from "react";
+import { ChangeEvent, FC, FormEvent } from 'react';
 
 interface OwnProps {
-    initialValue?: string,
-    onSubmit: (value: string) => void;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 type Props = OwnProps;
 
-export const Search: FC<Props> = ({ onSubmit, initialValue = '' }) => {
-    const [search, setSearch] = useState<string>(initialValue);
+export const Search: FC<Props> = ({ onChange, value }) => {
+  const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
 
-    const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        onSubmit(search);
-    }
-
-    return (
-        <form onSubmit={handleOnSubmit}>
-            <input type="text" placeholder="Search..." name="search" value={search} onChange={(e) => setSearch(e.target.value)} />
-            <button type="submit">Search</button>
-        </form>
-    )
-}
+  return (
+    <form onSubmit={handleOnSubmit}>
+      <input
+        type="text"
+        placeholder="Search..."
+        name="search"
+        value={value}
+        onChange={onChange}
+      />
+      <button type="submit">Search</button>
+    </form>
+  );
+};
 
 export default Search;
