@@ -1,12 +1,15 @@
-import { Button, Icon } from '@material-ui/core';
+import { AppBar, Button, Toolbar } from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Link from 'next/link';
-import store from 'src/state';
 import styled from 'styled-components';
 
-const StyledNav = styled.nav`
+import store from 'src/state';
+import theme from 'src/theme';
+
+const StyledNavigation = styled.div`
+  width: 100%;
   display: flex;
-  background: blue;
+  background: ${theme.palette.primary.main};
   padding: 0.5rem;
 
   a {
@@ -24,40 +27,44 @@ const StyledNav = styled.nav`
 `;
 
 export const Navigation = () => (
-  <StyledNav>
-    <Link href="/artists">
-      <a>Artists</a>
-    </Link>
-    <Link href="/write">
-      <a>Write</a>
-    </Link>
-    <div className="spacer" />
-    <Link href="/settings">
-      <a>
-        <SettingsIcon />
-      </a>
-    </Link>
-    <Button
-      type="button"
-      color="primary"
-      variant="contained"
-      onClick={() => {
-        console.log('state', store.getState());
-      }}
-    >
-      State
-    </Button>
-    <Button
-      type="button"
-      color="primary"
-      variant="contained"
-      onClick={() => {
-        localStorage.clear();
-      }}
-    >
-      Clear Local Storage
-    </Button>
-  </StyledNav>
+  <AppBar position="fixed">
+    <Toolbar>
+      <StyledNavigation>
+        <Link href="/artists">
+          <a>Artists</a>
+        </Link>
+        <Link href="/write">
+          <a>Write</a>
+        </Link>
+        <div className="spacer" />
+        <Link href="/settings">
+          <a>
+            <SettingsIcon />
+          </a>
+        </Link>
+        <Button
+          type="button"
+          color="secondary"
+          variant="contained"
+          onClick={() => {
+            console.log('state', store.getState());
+          }}
+        >
+          State
+        </Button>
+        <Button
+          type="button"
+          color="secondary"
+          variant="contained"
+          onClick={() => {
+            localStorage.clear();
+          }}
+        >
+          Clear Local Storage
+        </Button>
+      </StyledNavigation>
+    </Toolbar>
+  </AppBar>
 );
 
 export default Navigation;

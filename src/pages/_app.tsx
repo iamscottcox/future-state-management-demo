@@ -1,5 +1,6 @@
+import { ThemeProvider } from '@material-ui/core';
 import { AppProps } from 'next/app';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { PersistGate } from 'redux-persist/integration/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
@@ -9,6 +10,7 @@ import { Page } from 'src/components/Page';
 
 import store, { persistor } from 'src/state';
 import { ArtistSearchContextProvider } from 'src/state/contexts/artistSearch';
+import { theme } from 'src/theme';
 
 import 'src/styles.css';
 
@@ -20,9 +22,11 @@ export const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
       <Provider store={store}>
         <PersistGate persistor={persistor}>
           <ArtistSearchContextProvider>
-            <Page>
-              <Component {...pageProps} />
-            </Page>
+            <ThemeProvider theme={theme}>
+              <Page>
+                <Component {...pageProps} />
+              </Page>
+            </ThemeProvider>
           </ArtistSearchContextProvider>
         </PersistGate>
       </Provider>
