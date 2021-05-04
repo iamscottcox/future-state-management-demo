@@ -38,7 +38,6 @@ export const ArtistPreview: FC<Props> = ({ title, id, coverImage = '' }) => {
         <Link href={`/artists/${id}`}>
           <a>
             <img
-              className="artists-list-item-image"
               src={
                 coverImage.includes('spacer.gif')
                   ? 'https://via.placeholder.com/150'

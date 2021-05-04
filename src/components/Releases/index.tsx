@@ -1,22 +1,13 @@
 import { FC } from 'react';
 import { UseQueryResult } from 'react-query';
 import styled from 'styled-components';
-import Loading from '../Loading';
+
+import ReleasePreview from 'src/components/Releases/ReleasePreview';
+import Loading from 'src/components/Loading';
 
 const StyledReleases = styled.div`
   display: flex;
-  flex-flow: column wrap;
-`;
-
-const StyledRelease = styled.div`
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-
-  img {
-    width: 150px;
-    margin-right: 1rem;
-  }
+  flex-direction: column;
 `;
 
 interface OwnProps {
@@ -40,20 +31,13 @@ export const Releases: FC<Props> = ({
       {releases.map((release) => {
         const { id, title, thumb, year, main_release: mainRelease } = release;
         return (
-          <StyledRelease key={`${mainRelease}-${id}`}>
-            <img
-              className="artists-list-item-image"
-              src={
-                thumb.includes('spacer.gif')
-                  ? 'https://via.placeholder.com/150'
-                  : thumb
-              }
-              alt={title}
-            />
-            <h3>
-              {title} ({year})
-            </h3>
-          </StyledRelease>
+          <ReleasePreview
+            id={id}
+            title={title}
+            thumb={thumb}
+            year={year}
+            mainRelease={mainRelease}
+          />
         );
       })}
     </StyledReleases>
