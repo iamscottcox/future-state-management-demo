@@ -1,9 +1,9 @@
-import { CircularProgress } from '@material-ui/core';
 import { FC } from 'react';
 import { UseQueryResult } from 'react-query';
 import styled from 'styled-components';
 
 import ArtistPreview from 'src/components/Artists/ArtistPreview';
+import Loading from 'src/components/Loading';
 
 interface OwnProps {
   isLoading?: UseQueryResult['isLoading'];
@@ -23,9 +23,10 @@ export const Artists: FC<Props> = ({
   isLoading = false,
   error,
 }) => {
-  if (isLoading)
-    return <CircularProgress style={{ display: 'block', margin: '0 auto' }} />;
+  if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
+
+  console.log('artists', artists);
 
   return (
     <StyledArtists>

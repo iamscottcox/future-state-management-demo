@@ -1,23 +1,63 @@
+import {
+  MenuItem,
+  Select,
+  TablePagination,
+  Typography,
+} from '@material-ui/core';
 import { useRouter } from 'next/dist/client/router';
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { Select } from 'src/components/Filters/Select';
-import { Pagination } from 'src/components/Pagination';
+import { Loading } from 'src/components/Loading';
 import Releases from 'src/components/Releases';
 import { useArtistById } from 'src/hooks/artists';
 import { useReleases } from 'src/hooks/releases';
 import { getPrimaryArtistImage } from 'src/libs/artists';
-import { parseSearchQuery, replacePath } from 'src/libs/paths';
+import { createNewPath, parseSearchQuery, replacePath } from 'src/libs/paths';
 
 const StyledArtist = styled.div`
   .jumbotron {
     text-align: center;
+    margin-bottom: 4rem;
+
+    .artist-name {
+      margin-bottom: 1rem;
+    }
+
+    img {
+      max-height: 500px;
+      width: auto;
+    }
+
+    .artist-real-name {
+      margin-top: 1rem;
+    }
+  }
+
+  .filters {
+    display: flex;
+    margin-bottom: 2rem;
+
+    .sorting {
+      display: flex;
+      align-items: center;
+
+      > * {
+        margin-right: 1rem;
+
+        &::last-of-type {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
   }
 
   .releases {
     min-height: 500px;
-    text-align: center;
   }
 `;
 
@@ -32,14 +72,15 @@ export const ArtistPage: FC = () => {
 
   const id = parseSearchQuery(query.id);
   const page = parseInt(parseSearchQuery(query.page) || '1');
-  const sort = parseSearchQuery(query.sort);
-  const sortOrder = parseSearchQuery(query.sortOrder);
+  const sort = parseSearchQuery(query.sort || 'year');
+  const sortOrder = parseSearchQuery(query.sortOrder, 'desc');
+  const perPage = parseSearchQuery(query.perPage || '100');
 
   const {
     data: releasesData,
     isLoading: releasesIsLoading,
     error: releasesError,
-  } = useReleases({ id, pageNumber: page, sort, sortOrder });
+  } = useReleases({ id, pageNumber: page, sort, sortOrder, perPage });
   const {
     data: artistData,
     isLoading: artistIsLoading,
@@ -52,39 +93,65 @@ export const ArtistPage: FC = () => {
     [images]
   );
 
-  if (artistIsLoading) return <p>Loading...</p>;
+  if (artistIsLoading) return <Loading />;
   if (artistError) return <p>There was an error: {artistError.message}</p>;
 
   return (
     <StyledArtist>
       <div className="jumbotron">
-        <h1>{name}</h1>
+        <Typography variant="h1" className="artist-name">
+          {name}
+        </Typography>
         <img src={uri} />
-        <h4>{realname}</h4>
+        <Typography variant="h2" className="artist-real-name">
+          {realname}
+        </Typography>
       </div>
       <div className="releases">
-        <h2>Releases</h2>
-        <Pagination page={page} pages={releasesData?.pagination?.pages} />
+        <Typography variant="h4">Releases</Typography>
         <div className="filters">
-          <Select
-            value={sort}
-            onChange={(value) => {
-              handleReplacePath({ key: 'sort', value });
+          <div className="sorting">
+            <Select
+              value={sort}
+              onChange={(e) => {
+                const value = e.target.value as string;
+                handleReplacePath({ key: 'sort', value });
+              }}
+            >
+              <MenuItem value="year">Year</MenuItem>
+              <MenuItem value="title">Title</MenuItem>
+              <MenuItem value="format">Format</MenuItem>
+            </Select>
+            <Select
+              value={sortOrder}
+              onChange={(e) => {
+                const value = e.target.value as string;
+                handleReplacePath({ key: 'sortOrder', value });
+              }}
+            >
+              <MenuItem value="desc">Descending</MenuItem>
+              <MenuItem value="asc">Ascending</MenuItem>
+            </Select>
+          </div>
+          <div className="spacer" />
+          <TablePagination
+            align="left"
+            component="div"
+            count={releasesData?.pagination?.items || 0}
+            page={releasesData?.pagination?.pages === 0 ? 0 : page - 1}
+            onChangePage={(e, page) => {
+              router.replace(createNewPath({ key: 'page', value: page + 1 }));
             }}
-          >
-            <option value="year">Year</option>
-            <option value="title">Title</option>
-            <option value="format">Format</option>
-          </Select>
-          <Select
-            value={sortOrder}
-            onChange={(value) => {
-              handleReplacePath({ key: 'sortOrder', value });
+            rowsPerPage={parseInt(`${perPage}`)}
+            onChangeRowsPerPage={(e) => {
+              router.replace(
+                createNewPath([
+                  { key: 'perPage', value: e.target.value },
+                  { key: 'page', value: 1 },
+                ])
+              );
             }}
-          >
-            <option value="desc">Descending</option>
-            <option value="asc">Ascending</option>
-          </Select>
+          />
         </div>
         <Releases
           releases={releasesData?.releases}

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { UseQueryResult } from 'react-query';
 import styled from 'styled-components';
+import Loading from '../Loading';
 
 const StyledReleases = styled.div`
   display: flex;
@@ -31,34 +32,30 @@ export const Releases: FC<Props> = ({
   releases = [],
   isLoading = false,
 }) => {
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading isLoading={true} />;
   if (error) return <p>{error.message}</p>;
 
   return (
     <StyledReleases>
-      {isLoading ? (
-        <p>Loading....</p>
-      ) : (
-        releases.map((release) => {
-          const { id, title, thumb, year, main_release: mainRelease } = release;
-          return (
-            <StyledRelease key={`${mainRelease}-${id}`}>
-              <img
-                className="artists-list-item-image"
-                src={
-                  thumb.includes('spacer.gif')
-                    ? 'https://via.placeholder.com/150'
-                    : thumb
-                }
-                alt={title}
-              />
-              <h3>
-                {title} ({year})
-              </h3>
-            </StyledRelease>
-          );
-        })
-      )}
+      {releases.map((release) => {
+        const { id, title, thumb, year, main_release: mainRelease } = release;
+        return (
+          <StyledRelease key={`${mainRelease}-${id}`}>
+            <img
+              className="artists-list-item-image"
+              src={
+                thumb.includes('spacer.gif')
+                  ? 'https://via.placeholder.com/150'
+                  : thumb
+              }
+              alt={title}
+            />
+            <h3>
+              {title} ({year})
+            </h3>
+          </StyledRelease>
+        );
+      })}
     </StyledReleases>
   );
 };

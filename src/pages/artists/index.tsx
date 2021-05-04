@@ -1,4 +1,4 @@
-import { TablePagination } from '@material-ui/core';
+import { TablePagination, Typography } from '@material-ui/core';
 import { useRouter } from 'next/dist/client/router';
 import { FC, useContext } from 'react';
 
@@ -10,6 +10,10 @@ import { ArtistSearchContext } from 'src/state/contexts/artistSearch';
 import styled from 'styled-components';
 
 const StyledArtistsPage = styled.div`
+  h1 {
+    margin-bottom: 1rem;
+  }
+
   .filters {
     display: flex;
     margin-bottom: 2rem;
@@ -43,6 +47,7 @@ export const ArtistsPage: FC = () => {
 
   return (
     <StyledArtistsPage>
+      <Typography variant="h1">Artists</Typography>
       <div className="filters">
         <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />
         <div className="spacer" />
