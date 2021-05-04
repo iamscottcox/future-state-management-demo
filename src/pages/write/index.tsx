@@ -1,3 +1,4 @@
+import { TextField } from '@material-ui/core';
 import { useWillUnmount } from 'beautiful-react-hooks';
 import { ChangeEvent, FC, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
@@ -22,7 +23,11 @@ const StyledWritePage = styled.div`
     display: flex;
     flex-direction: column;
 
-    label {
+    fieldset {
+      align-items: center;
+      display: flex;
+      border: none;
+
       .editing-icon {
         color: white;
         background: red;
@@ -31,15 +36,16 @@ const StyledWritePage = styled.div`
         height: 15px;
         display: none;
         text-align: center;
+        margin-right: 1rem;
       }
 
       &.editing .editing-icon {
         display: inline-block;
       }
-    }
 
-    input {
-      margin-bottom: 1rem;
+      .MuiFormControl-root {
+        flex: 1 1 auto;
+      }
     }
   }
 `;
@@ -50,8 +56,8 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
   const [title, setTitle] = useState(draftTitle);
   const [body, setBody] = useState(draftBody);
 
-  const editingTitle = useMemo(() => title !== '', [title]);
-  const editingBody = useMemo(() => body !== '', [body]);
+  const editingTitle = useMemo(() => title !== draftTitle, [title, draftTitle]);
+  const editingBody = useMemo(() => body !== draftBody, [body, draftBody]);
   const isDraft = useMemo(() => editingTitle || editingBody, [
     editingTitle,
     editingBody,
@@ -65,28 +71,31 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
     <StyledWritePage>
       {isDraft && <p>This article is being edited</p>}
       <form>
-        <label className={editingTitle ? 'editing' : ''} htmlFor="write-title">
-          Title <span className="editing-icon">!</span>
-        </label>
-        <input
-          id="write-title"
-          value={title}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setTitle(e.target.value)
-          }
-        />
-        <label className={editingBody ? 'editing' : ''} htmlFor="write-body">
-          Body <span className="editing-icon">!</span>
-        </label>
-        <textarea
-          id="write-body"
-          value={body}
-          onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-            setBody(e.target.value)
-          }
-        >
-          {body}
-        </textarea>
+        <fieldset className={editingTitle ? 'editing' : ''}>
+          <span className="editing-icon">!</span>
+          <TextField
+            id="title-field"
+            label="Title"
+            error={editingTitle}
+            value={title}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setTitle(e.target.value);
+            }}
+          />
+        </fieldset>
+        <fieldset className={editingBody ? 'editing' : ''}>
+          <span className="editing-icon">!</span>
+          <TextField
+            id="body-field"
+            label="Body"
+            error={editingBody}
+            value={body}
+            multiline={true}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setBody(e.target.value);
+            }}
+          />
+        </fieldset>
       </form>
     </StyledWritePage>
   );
