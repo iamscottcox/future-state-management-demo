@@ -1,4 +1,4 @@
-import { AppBar, Button, Toolbar } from '@material-ui/core';
+import { AppBar, Button, Toolbar, Typography } from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -31,10 +31,14 @@ export const Navigation = () => (
     <Toolbar>
       <StyledNavigation>
         <Link href="/artists">
-          <a>Artists</a>
+          <a>
+            <Typography variant="body1">Artists</Typography>
+          </a>
         </Link>
         <Link href="/write">
-          <a>Write</a>
+          <a>
+            <Typography variant="body1">Write</Typography>
+          </a>
         </Link>
         <div className="spacer" />
         <Link href="/settings">

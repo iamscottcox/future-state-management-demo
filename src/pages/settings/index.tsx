@@ -1,3 +1,4 @@
+import { Checkbox, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { ChangeEvent, FC } from 'react';
 import { connect } from 'react-redux';
 import { CURRENCIES } from 'src/constants/currencies';
@@ -23,8 +24,12 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setDefaultCurrency: (e: ChangeEvent<HTMLSelectElement>) => void;
-  setDefaultRegion: (e: ChangeEvent<HTMLSelectElement>) => void;
+  setDefaultCurrency: (
+    e: ChangeEvent<{ name?: string | undefined; value: unknown }>
+  ) => void;
+  setDefaultRegion: (
+    e: ChangeEvent<{ name?: string | undefined; value: unknown }>
+  ) => void;
   setShowCurrencySymbol: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -67,23 +72,39 @@ export const SettingsPage: FC<Props> = ({
         <h3>Currencies</h3>
         <fieldset>
           <section>
-            <label htmlFor="default-currency">Default Currency</label>
-            <select
-              id="default-currency"
+            <InputLabel
+              id="default-currency-select-label"
+              htmlFor="default-currency-select"
+            >
+              Default Currency
+            </InputLabel>
+            <Select
+              id="default-currency-select"
               value={defaultCurrency}
               onChange={setDefaultCurrency}
             >
               {CURRENCIES.map((currency) => {
                 return (
-                  <option key={currency} value={currency}>
+                  <MenuItem key={currency} value={currency}>
                     {currency}
-                  </option>
+                  </MenuItem>
                 );
               })}
-            </select>
+            </Select>
           </section>
           <section>
-            <label htmlFor="show-currency-symbol">Currency Symbol</label>
+            <InputLabel
+              id="show-currency-symbol-checkbox-label"
+              htmlFor="show-currency-symbol-checkbox"
+            >
+              Show Currency
+            </InputLabel>
+            <Checkbox
+              id="show-currency-symbol-checkbox"
+              value={showCurrencySymbol}
+              onChange={setShowCurrencySymbol}
+            />
+            {/* <label htmlFor="show-currency-symbol">Currency Symbol</label>
             <p>
               Show?{' '}
               <input
@@ -92,26 +113,28 @@ export const SettingsPage: FC<Props> = ({
                 id="show-currency-symbol"
                 type="checkbox"
               />
-            </p>
+            </p> */}
           </section>
         </fieldset>
         <h3>Regions</h3>
         <fieldset>
           <section>
-            <label htmlFor="default-region">Default Region</label>
-            <select
+            <InputLabel id="default-region-label" htmlFor="default-region">
+              Default Region
+            </InputLabel>
+            <Select
               id="default-region"
               value={defaultRegion}
               onChange={setDefaultRegion}
             >
               {REGIONS.map((region) => {
                 return (
-                  <option key={region} value={region}>
+                  <MenuItem key={region} value={region}>
                     {region}
-                  </option>
+                  </MenuItem>
                 );
               })}
-            </select>
+            </Select>
           </section>
         </fieldset>
       </div>
