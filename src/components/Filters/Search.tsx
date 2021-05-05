@@ -1,4 +1,10 @@
-import { TextField } from '@material-ui/core';
+import {
+  IconButton,
+  Input,
+  InputAdornment,
+  InputLabel,
+} from '@material-ui/core';
+import { HighlightOff } from '@material-ui/icons';
 import { FC, FormEvent, useEffect, useState } from 'react';
 
 interface OwnProps {
@@ -15,19 +21,39 @@ export const Search: FC<Props> = ({ onSubmit, initialValue = '' }) => {
     onSubmit(value);
   };
 
+  const handleClear = () => {
+    setValue('');
+  };
+
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
 
   return (
     <form onSubmit={handleOnSubmit}>
-      <TextField
+      <InputLabel id="search-field-label" htmlFor="search-field">
+        Search
+      </InputLabel>
+      <Input
         id="search-field"
-        label="Search"
+        type="text"
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
         }}
+        endAdornment={
+          value !== '' && (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="clear search field"
+                onClick={handleClear}
+                onMouseDown={handleClear}
+              >
+                <HighlightOff />
+              </IconButton>
+            </InputAdornment>
+          )
+        }
       />
     </form>
   );
