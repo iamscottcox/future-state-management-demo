@@ -38,9 +38,9 @@ export const Navigation = () => (
       </Link>
       <div className="spacer" />
       <Link href="/settings">
-        <Nav.Link>
+        <a>
           <SettingsIcon />
-        </Nav.Link>
+        </a>
       </Link>
       <Button
         type="button"

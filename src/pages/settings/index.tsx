@@ -1,6 +1,8 @@
-import { Checkbox, InputLabel, MenuItem, Select } from '@material-ui/core';
 import { ChangeEvent, FC } from 'react';
+import Form from 'react-bootstrap/Form';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+
 import { CURRENCIES } from 'src/constants/currencies';
 import { REGIONS } from 'src/constants/regions';
 import {
@@ -15,7 +17,6 @@ import {
   setDefaultRegion,
   setShowCurrencySymbol,
 } from 'src/state/slices/settings';
-import styled from 'styled-components';
 
 interface StateProps {
   defaultCurrency: AppState['settings']['defaultCurrency'];
@@ -38,21 +39,17 @@ interface OwnProps {}
 type Props = StateProps & DispatchProps & OwnProps;
 
 const StyledSettingsPage = styled.div`
-  fieldset {
-    margin-bottom: 1rem;
+  .settings-group {
     display: flex;
+    border: 1px solid #333;
+    padding: 1rem;
+    border-radius: 0.2rem;
 
-    section {
-      display: flex;
-      flex-direction: column;
+    > * {
       margin-right: 1rem;
 
-      label {
-        margin-bottom: 0.5rem;
-      }
-
-      p {
-        margin: 0;
+      &::last-of-type {
+        margin-right: 0;
       }
     }
   }
@@ -68,76 +65,65 @@ export const SettingsPage: FC<Props> = ({
 }) => {
   return (
     <StyledSettingsPage className="settings-page">
-      <div className="default-currency-container">
+      <Form>
         <h3>Currencies</h3>
-        <fieldset>
-          <section>
-            <InputLabel
-              id="default-currency-select-label"
-              htmlFor="default-currency-select"
-            >
+        <Form.Group className="settings-group">
+          <Form.Group>
+            <Form.Label htmlFor="default-currency-select">
               Default Currency
-            </InputLabel>
-            <Select
+            </Form.Label>
+            <Form.Control
+              as="select"
               id="default-currency-select"
               value={defaultCurrency}
               onChange={setDefaultCurrency}
             >
               {CURRENCIES.map((currency) => {
                 return (
-                  <MenuItem key={currency} value={currency}>
+                  <option key={currency} value={currency}>
                     {currency}
-                  </MenuItem>
+                  </option>
                 );
               })}
-            </Select>
-          </section>
-          <section>
-            <InputLabel
-              id="show-currency-symbol-checkbox-label"
-              htmlFor="show-currency-symbol-checkbox"
-            >
-              Show Currency
-            </InputLabel>
-            <Checkbox
+            </Form.Control>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label htmlFor="show-currency-symbol-checkbox">
+              Show Currency Symbol?
+            </Form.Label>
+            <Form.Check
               id="show-currency-symbol-checkbox"
-              value={showCurrencySymbol}
+              checked={showCurrencySymbol}
               onChange={setShowCurrencySymbol}
             />
-            {/* <label htmlFor="show-currency-symbol">Currency Symbol</label>
-            <p>
-              Show?{' '}
-              <input
-                checked={showCurrencySymbol}
-                onChange={setShowCurrencySymbol}
-                id="show-currency-symbol"
-                type="checkbox"
-              />
-            </p> */}
-          </section>
-        </fieldset>
+          </Form.Group>
+        </Form.Group>
         <h3>Regions</h3>
-        <fieldset>
-          <section>
-            <InputLabel id="default-region-label" htmlFor="default-region">
+        <Form.Group className="settings-group">
+          <Form.Group>
+            <Form.Label
+              id="default-region-label"
+              htmlFor="default-region-select"
+            >
               Default Region
-            </InputLabel>
-            <Select
-              id="default-region"
+            </Form.Label>
+            <Form.Control
+              as="select"
+              id="default-region-select"
               value={defaultRegion}
               onChange={setDefaultRegion}
             >
               {REGIONS.map((region) => {
                 return (
-                  <MenuItem key={region} value={region}>
+                  <option key={region} value={region}>
                     {region}
-                  </MenuItem>
+                  </option>
                 );
               })}
-            </Select>
-          </section>
-        </fieldset>
-      </div>
+            </Form.Control>
+          </Form.Group>
+        </Form.Group>
+      </Form>
     </StyledSettingsPage>
   );
 };
