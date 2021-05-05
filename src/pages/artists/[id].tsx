@@ -19,18 +19,13 @@ const StyledArtist = styled.div`
   .jumbotron {
     text-align: center;
     margin-bottom: 4rem;
-
-    .artist-name {
-      margin-bottom: 1rem;
-    }
+    padding: 2rem 0;
+    background: none;
 
     img {
       max-height: 500px;
       width: auto;
-    }
-
-    .artist-real-name {
-      margin-top: 1rem;
+      margin: 2rem 0;
     }
   }
 
@@ -80,7 +75,7 @@ export const ArtistPage: FC = () => {
     data: releasesData,
     isLoading: releasesIsLoading,
     error: releasesError,
-  } = useReleases({ id, pageNumber: page, sort, sortOrder, perPage });
+  } = useReleases({ id, pageNumber: `${page}`, sort, sortOrder, perPage });
   const {
     data: artistData,
     isLoading: artistIsLoading,
@@ -99,16 +94,12 @@ export const ArtistPage: FC = () => {
   return (
     <StyledArtist>
       <div className="jumbotron">
-        <Typography variant="h1" className="artist-name">
-          {name}
-        </Typography>
+        <h1 className="artist-name">{name}</h1>
         <img src={uri} />
-        <Typography variant="h2" className="artist-real-name">
-          {realname}
-        </Typography>
+        <h2 className="artist-real-name">{realname}</h2>
       </div>
       <div className="releases">
-        <Typography variant="h4">Releases</Typography>
+        <h4>Releases</h4>
         <div className="filters">
           <div className="sorting">
             <Select

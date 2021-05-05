@@ -1,10 +1,5 @@
-import {
-  IconButton,
-  Input,
-  InputAdornment,
-  InputLabel,
-} from '@material-ui/core';
-import { HighlightOff } from '@material-ui/icons';
+import Badge from 'react-bootstrap/Badge';
+import Form from 'react-bootstrap/Form';
 import { FC, FormEvent, useEffect, useState } from 'react';
 
 interface OwnProps {
@@ -30,32 +25,19 @@ export const Search: FC<Props> = ({ onSubmit, initialValue = '' }) => {
   }, [initialValue]);
 
   return (
-    <form onSubmit={handleOnSubmit}>
-      <InputLabel id="search-field-label" htmlFor="search-field">
-        Search
-      </InputLabel>
-      <Input
-        id="search-field"
-        type="text"
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
-        endAdornment={
-          value !== '' && (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="clear search field"
-                onClick={handleClear}
-                onMouseDown={handleClear}
-              >
-                <HighlightOff />
-              </IconButton>
-            </InputAdornment>
-          )
-        }
-      />
-    </form>
+    <Form onSubmit={handleOnSubmit}>
+      <Form.Group>
+        <Form.Label htmlFor="search-input">Search</Form.Label>
+        <Form.Control
+          id="search-input"
+          type="text"
+          value={value}
+          onChange={(e) => {
+            setValue(e.target.value);
+          }}
+        />
+      </Form.Group>
+    </Form>
   );
 };
 

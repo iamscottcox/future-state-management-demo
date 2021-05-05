@@ -1,4 +1,5 @@
-import { Card, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import { FC, useState } from 'react';
 import styled from 'styled-components';
@@ -26,15 +27,9 @@ const StyledArtistPreview = styled.div`
 `;
 
 export const ArtistPreview: FC<Props> = ({ title, id, coverImage = '' }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <StyledArtistPreview
-      key={id}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Card raised={isHovered}>
+    <StyledArtistPreview key={id}>
+      <Card>
         <Link href={`/artists/${id}`}>
           <a>
             <img
@@ -45,7 +40,7 @@ export const ArtistPreview: FC<Props> = ({ title, id, coverImage = '' }) => {
               }
               alt={title}
             />
-            <Typography variant="h5">{title}</Typography>
+            <h5>{title}</h5>
           </a>
         </Link>
       </Card>

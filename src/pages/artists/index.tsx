@@ -1,4 +1,5 @@
-import { TablePagination, Typography } from '@material-ui/core';
+import { TablePagination } from '@material-ui/core';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 import { useRouter } from 'next/dist/client/router';
 import { FC, useContext } from 'react';
 
@@ -47,7 +48,9 @@ export const ArtistsPage: FC = () => {
 
   return (
     <StyledArtistsPage>
-      <Typography variant="h1">Artists</Typography>
+      <Jumbotron>
+        <h1>Artists</h1>
+      </Jumbotron>
       <div className="filters">
         <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />
         <div className="spacer" />
