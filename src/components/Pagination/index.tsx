@@ -1,10 +1,10 @@
-import Link from 'next/link';
-import { FC, useMemo } from 'react';
-import styled from 'styled-components';
+import { FC, useEffect, useMemo, useState } from 'react';
+import BootstrapPagination from 'react-bootstrap/Pagination';
 
 import { usePagination } from 'src/hooks/pagination';
 import { range } from 'src/libs/numbers';
-import { createNewPath } from 'src/libs/paths';
+import { createNewPath, replacePath } from 'src/libs/paths';
+import { useRouter } from 'next/dist/client/router';
 
 interface OwnProps {
   page?: number;
@@ -13,16 +13,14 @@ interface OwnProps {
 
 type Props = OwnProps;
 
-const StyledPagination = styled.div`
-  display: flex;
-  justify-content: center;
+export const Pagination: FC<Props> = ({
+  page: initialPage = 1,
+  pages: initialPages = 1,
+}) => {
+  const [page, setPage] = useState(initialPage);
+  const [pages, setPages] = useState(initialPages);
 
-  > * {
-    margin: 1rem 0.5rem 1rem 0;
-  }
-`;
-
-export const Pagination: FC<Props> = ({ page = 1, pages = 1 }) => {
+  const router = useRouter();
   const {
     next,
     prev,
@@ -34,64 +32,65 @@ export const Pagination: FC<Props> = ({ page = 1, pages = 1 }) => {
     isMore,
   } = usePagination(page, pages);
 
+  useEffect(() => {
+    if (initialPage > initialPages) {
+      return;
+    }
+
+    if (initialPage) {
+      setPage(initialPage);
+    }
+
+    if (initialPages) {
+      setPages(initialPages);
+    }
+  }, [initialPage, initialPages]);
+
   const pagesArray = useMemo(() => range(1, pages).slice(prev, next), [
     pages,
     prev,
     next,
   ]);
 
+  const handleReplacePath = replacePath(router);
+
   return (
-    <StyledPagination>
-      {prevPageEnabled && (
-        <Link
-          scroll={false}
-          href={createNewPath({ key: 'page', value: prevPage })}
-        >
-          <a>⬅️</a>
-        </Link>
-      )}
-      {isLess && (
-        <p>
-          <Link
-            key={1}
-            scroll={false}
-            href={createNewPath({ key: 'page', value: 1 })}
-          >
-            <a>1 ...</a>
-          </Link>
-        </p>
-      )}
+    <BootstrapPagination>
+      <BootstrapPagination.First
+        disabled={page === 1}
+        onClick={() => handleReplacePath({ key: 'page', value: 1 })}
+      />
+      <BootstrapPagination.Prev
+        disabled={!prevPageEnabled}
+        onClick={() => handleReplacePath({ key: 'page', value: prevPage })}
+      />
+      {isLess && <BootstrapPagination.Ellipsis disabled />}
       {pagesArray.map((number) => {
-        if (number === page) return <p key={number}>{page}</p>;
         return (
-          <Link
+          <BootstrapPagination.Item
             key={number}
-            scroll={false}
-            href={createNewPath({ key: 'page', value: number })}
+            disabled={page === number}
+            onClick={() => handleReplacePath({ key: 'page', value: number })}
           >
-            <a>{number}</a>
-          </Link>
+            {number}
+          </BootstrapPagination.Item>
         );
       })}
-      {isMore && (
-        <p>
-          <Link
-            key={1}
-            scroll={false}
-            href={createNewPath({ key: 'page', value: pages })}
-          >
-            <a>... {pages}</a>
-          </Link>
-        </p>
-      )}
-      {nextPageEnabled && (
-        <Link
-          scroll={false}
-          href={createNewPath({ key: 'page', value: nextPage })}
-        >
-          <a>➡️</a>
-        </Link>
-      )}
-    </StyledPagination>
+      {isMore && <BootstrapPagination.Ellipsis disabled />}
+      <BootstrapPagination.Next
+        disabled={!nextPageEnabled}
+        onClick={() => {
+          handleReplacePath({ key: 'page', value: nextPage });
+        }}
+      />
+      <BootstrapPagination.Last
+        disabled={page === pages}
+        onClick={() => {
+          handleReplacePath({ key: 'page', value: pages });
+        }}
+      />
+    </BootstrapPagination>
   );
 };
+
+export default Pagination;

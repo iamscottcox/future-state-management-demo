@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
 
