@@ -1,4 +1,4 @@
-import { CircularProgress } from '@material-ui/core';
+import Spinner from 'react-bootstrap/Spinner';
 import { FC } from 'react';
 import styled from 'styled-components';
 
@@ -17,7 +17,7 @@ type Props = OwnProps;
 export const Loading: FC<Props> = ({ isLoading = true }) => {
   return isLoading ? (
     <StyledCircularProgress>
-      <CircularProgress className="loading-spinner" />
+      <Spinner animation="border" variant="primary" />
     </StyledCircularProgress>
   ) : null;
 };

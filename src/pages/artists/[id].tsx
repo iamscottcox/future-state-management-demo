@@ -1,4 +1,3 @@
-import { MenuItem, Select, TablePagination } from '@material-ui/core';
 import { useRouter } from 'next/dist/client/router';
 import { FC, useMemo } from 'react';
 import Form from 'react-bootstrap/Form';
@@ -9,7 +8,7 @@ import Releases from 'src/components/Releases';
 import { useArtistById } from 'src/hooks/artists';
 import { useReleases } from 'src/hooks/releases';
 import { getPrimaryArtistImage } from 'src/libs/artists';
-import { createNewPath, parseSearchQuery, replacePath } from 'src/libs/paths';
+import { parseSearchQuery, replacePath } from 'src/libs/paths';
 import Pagination from 'src/components/Pagination';
 
 const StyledArtist = styled.div`

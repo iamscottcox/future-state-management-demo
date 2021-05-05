@@ -1,4 +1,3 @@
-import { TablePagination } from '@material-ui/core';
 import Form from 'react-bootstrap/Form';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import { useRouter } from 'next/dist/client/router';
@@ -7,7 +6,7 @@ import { FC, useContext, useMemo } from 'react';
 import { Artists } from 'src/components/Artists';
 import Search from 'src/components/Filters/Search';
 import { useArtists } from 'src/hooks/artists';
-import { createNewPath, parseSearchQuery, replacePath } from 'src/libs/paths';
+import { parseSearchQuery, replacePath } from 'src/libs/paths';
 import { ArtistSearchContext } from 'src/state/contexts/artistSearch';
 import styled from 'styled-components';
 import Pagination from 'src/components/Pagination';

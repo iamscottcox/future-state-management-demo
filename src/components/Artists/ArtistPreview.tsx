@@ -1,7 +1,6 @@
-import { Typography } from '@material-ui/core';
 import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 interface OwnProps {
