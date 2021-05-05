@@ -61,7 +61,9 @@ export const Navigation = () => (
           color="secondary"
           variant="contained"
           onClick={() => {
-            localStorage.clear();
+            if (confirm('Are you sure you want to clear local storage?')) {
+              localStorage.clear();
+            }
           }}
         >
           Clear Local Storage

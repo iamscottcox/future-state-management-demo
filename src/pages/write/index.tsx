@@ -1,4 +1,4 @@
-import { TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import { useWillUnmount } from 'beautiful-react-hooks';
 import { ChangeEvent, FC, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
@@ -96,6 +96,9 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
             }}
           />
         </fieldset>
+        <Button variant="contained" color="primary" type="button">
+          Submit
+        </Button>
       </form>
     </StyledWritePage>
   );
