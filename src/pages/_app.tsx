@@ -10,8 +10,7 @@ import { Page } from 'src/components/Page';
 import store, { persistor } from 'src/state';
 import { ArtistSearchContextProvider } from 'src/state/contexts/artistSearch';
 
-import 'src/styles.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'src/styles.scss';
 
 const queryClient = new QueryClient();
 
