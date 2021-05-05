@@ -1,14 +1,16 @@
 import { TablePagination } from '@material-ui/core';
+import Form from 'react-bootstrap/Form';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import { useRouter } from 'next/dist/client/router';
-import { FC, useContext } from 'react';
+import { FC, useContext, useMemo } from 'react';
 
 import { Artists } from 'src/components/Artists';
 import Search from 'src/components/Filters/Search';
 import { useArtists } from 'src/hooks/artists';
-import { createNewPath, parseSearchQuery } from 'src/libs/paths';
+import { createNewPath, parseSearchQuery, replacePath } from 'src/libs/paths';
 import { ArtistSearchContext } from 'src/state/contexts/artistSearch';
 import styled from 'styled-components';
+import Pagination from 'src/components/Pagination';
 
 const StyledArtistsPage = styled.div`
   h1 {
@@ -22,6 +24,18 @@ const StyledArtistsPage = styled.div`
     .spacer {
       flex: 1 1 auto;
     }
+
+    .pagination {
+      align-items: flex-end;
+    }
+
+    > * {
+      margin-right: 1rem;
+
+      &::last-of-type {
+        margin-right: none;
+      }
+    }
   }
 `;
 
@@ -32,6 +46,7 @@ export const ArtistsPage: FC = () => {
 
   const router = useRouter();
   const page = parseInt(parseSearchQuery(router.query.page) || '1');
+  const handleReplacePath = useMemo(() => replacePath(router), [router]);
 
   const { isLoading, data, error } = useArtists({
     search: artistSearch,
@@ -39,11 +54,13 @@ export const ArtistsPage: FC = () => {
     perPage,
   });
 
-  const pages = data?.pagination?.items || 0;
+  const pages = data?.pagination?.pages || 0;
+
+  console.log('pages', pages);
 
   const handleSearchSubmit = (value: string) => {
     setArtistSearch(value);
-    router.replace(createNewPath({ key: 'page', value: 1 }));
+    handleReplacePath({ key: 'page', value: 1 });
   };
 
   return (
@@ -53,21 +70,27 @@ export const ArtistsPage: FC = () => {
       </Jumbotron>
       <div className="filters">
         <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />
+        <Form>
+          <Form.Group>
+            <Form.Label htmlFor="rows-per-page-select">
+              Rows per page
+            </Form.Label>
+            <Form.Control
+              id="rows-per-page-select"
+              as="select"
+              onChange={(e) => {
+                setPerPage(e.target.value);
+              }}
+            >
+              <option value="100">100</option>
+              <option value="50">50</option>
+              <option value="25">25</option>
+              <option value="10">10</option>
+            </Form.Control>
+          </Form.Group>
+        </Form>
         <div className="spacer" />
-        <TablePagination
-          align="left"
-          component="div"
-          count={data?.pagination?.items || 0}
-          page={pages === 0 ? 0 : page - 1}
-          onChangePage={(e, page) => {
-            router.replace(createNewPath({ key: 'page', value: page + 1 }));
-          }}
-          rowsPerPage={parseInt(perPage)}
-          onChangeRowsPerPage={(e) => {
-            setPerPage(e.target.value);
-            router.replace(createNewPath({ key: 'page', value: 1 }));
-          }}
-        />
+        <Pagination page={page} pages={pages} />
       </div>
       <Artists artists={data?.results} isLoading={isLoading} error={error} />
     </StyledArtistsPage>
