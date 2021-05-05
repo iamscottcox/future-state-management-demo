@@ -39,12 +39,12 @@ export const ArtistsPage: FC = () => {
     perPage,
   });
 
+  const pages = data?.pagination?.items || 0;
+
   const handleSearchSubmit = (value: string) => {
     setArtistSearch(value);
     router.replace(createNewPath({ key: 'page', value: 1 }));
   };
-
-  const pages = data?.pagination?.items || 0;
 
   return (
     <StyledArtistsPage>

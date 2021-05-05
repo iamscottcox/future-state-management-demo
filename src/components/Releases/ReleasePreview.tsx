@@ -1,5 +1,5 @@
-import { Card, Typography } from '@material-ui/core';
 import { FC, useState } from 'react';
+import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
 
 interface OwnProps {
@@ -13,13 +13,12 @@ interface OwnProps {
 type Props = OwnProps;
 
 const StyledReleasePreview = styled.div`
-  display: flex;
   margin-bottom: 1rem;
 
-  & .MuiCard-root {
+  & .card {
     display: flex;
     align-items: center;
-    flex: 1 1 auto;
+    flex-direction: row;
 
     img {
       width: 150px;
@@ -35,15 +34,9 @@ export const ReleasePreview: FC<Props> = ({
   year,
   thumb = '',
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <StyledReleasePreview
-      key={`${mainRelease}-${id}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Card raised={isHovered}>
+    <StyledReleasePreview key={`${mainRelease}-${id}`}>
+      <Card>
         <img
           className="release-preview"
           src={
@@ -53,9 +46,9 @@ export const ReleasePreview: FC<Props> = ({
           }
           alt={title}
         />
-        <Typography variant="h5">
+        <h5>
           {title} ({year})
-        </Typography>
+        </h5>
       </Card>
     </StyledReleasePreview>
   );
