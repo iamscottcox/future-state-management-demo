@@ -1,15 +1,15 @@
-import { AppBar, Button, Toolbar, Typography } from '@material-ui/core';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Link from 'next/link';
 import styled from 'styled-components';
 
 import store from 'src/state';
-import theme from 'src/theme';
 
 const StyledNavigation = styled.div`
   width: 100%;
   display: flex;
-  background: ${theme.palette.primary.main};
   padding: 0.5rem;
 
   a {
@@ -27,50 +27,43 @@ const StyledNavigation = styled.div`
 `;
 
 export const Navigation = () => (
-  <AppBar position="fixed">
-    <Toolbar>
-      <StyledNavigation>
-        <Link href="/artists">
-          <a>
-            <Typography variant="body1">Artists</Typography>
-          </a>
-        </Link>
-        <Link href="/write">
-          <a>
-            <Typography variant="body1">Write</Typography>
-          </a>
-        </Link>
-        <div className="spacer" />
-        <Link href="/settings">
-          <a>
-            <SettingsIcon />
-          </a>
-        </Link>
-        <Button
-          type="button"
-          color="secondary"
-          variant="contained"
-          onClick={() => {
-            console.log('state', store.getState());
-          }}
-        >
-          State
-        </Button>
-        <Button
-          type="button"
-          color="secondary"
-          variant="contained"
-          onClick={() => {
-            if (confirm('Are you sure you want to clear local storage?')) {
-              localStorage.clear();
-            }
-          }}
-        >
-          Clear Local Storage
-        </Button>
-      </StyledNavigation>
-    </Toolbar>
-  </AppBar>
+  <Navbar fixed="top" bg="primary" variant="dark">
+    <Navbar.Brand>Demo</Navbar.Brand>
+    <StyledNavigation>
+      <Link href="/artists">
+        <a>Artists</a>
+      </Link>
+      <Link href="/write">
+        <a>Write</a>
+      </Link>
+      <div className="spacer" />
+      <Link href="/settings">
+        <Nav.Link>
+          <SettingsIcon />
+        </Nav.Link>
+      </Link>
+      <Button
+        type="button"
+        variant="secondary"
+        onClick={() => {
+          console.log('state', store.getState());
+        }}
+      >
+        State
+      </Button>
+      <Button
+        type="button"
+        variant="secondary"
+        onClick={() => {
+          if (confirm('Are you sure you want to clear local storage?')) {
+            localStorage.clear();
+          }
+        }}
+      >
+        Clear Local Storage
+      </Button>
+    </StyledNavigation>
+  </Navbar>
 );
 
 export default Navigation;

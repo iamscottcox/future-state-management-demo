@@ -3,8 +3,6 @@ import { red } from '@material-ui/core/colors';
 
 import customTheme from 'theme.json';
 
-console.log('customTheme', customTheme);
-
 export const theme = createMuiTheme({
   ...customTheme,
   // ...{
