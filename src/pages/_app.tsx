@@ -13,6 +13,7 @@ import { ArtistSearchContextProvider } from 'src/state/contexts/artistSearch';
 import { theme } from 'src/theme';
 
 import 'src/styles.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const queryClient = new QueryClient();
 

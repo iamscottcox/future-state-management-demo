@@ -1,4 +1,7 @@
-import { Button, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { useWillUnmount } from 'beautiful-react-hooks';
 import { ChangeEvent, FC, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
@@ -19,32 +22,19 @@ interface OwnProps {}
 type Props = StateProps & DispatchProps & OwnProps;
 
 const StyledWritePage = styled.div`
+  .article-edits-warning .badge.badge-warning {
+    margin-right: 0.5rem;
+  }
+
   form {
     display: flex;
     flex-direction: column;
 
-    fieldset {
-      align-items: center;
-      display: flex;
-      border: none;
+    .form-group {
+      margin-bottom: 1rem;
 
-      .editing-icon {
-        color: white;
-        background: red;
-        border-radius: 15px;
-        width: 15px;
-        height: 15px;
-        display: none;
-        text-align: center;
-        margin-right: 1rem;
-      }
-
-      &.editing .editing-icon {
-        display: inline-block;
-      }
-
-      .MuiFormControl-root {
-        flex: 1 1 auto;
+      .badge.badge-warning {
+        margin-left: 0.5rem;
       }
     }
   }
@@ -69,37 +59,44 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
 
   return (
     <StyledWritePage>
-      {isDraft && <p>This article is being edited</p>}
-      <form>
-        <fieldset className={editingTitle ? 'editing' : ''}>
-          <span className="editing-icon">!</span>
-          <TextField
-            id="title-field"
-            label="Title"
-            error={editingTitle}
+      <p style={{ opacity: isDraft ? 1 : 0 }} className="article-edits-warning">
+        <Badge variant="warning">Warning</Badge>
+        This article is being edited
+      </p>
+      <Form>
+        <Form.Group>
+          <Form.Label htmlFor="title-input">
+            Title
+            {editingTitle && <Badge variant="warning">Editing</Badge>}
+          </Form.Label>
+          <Form.Control
+            id="title-input"
+            type="text"
             value={title}
+            size="lg"
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setTitle(e.target.value);
             }}
           />
-        </fieldset>
-        <fieldset className={editingBody ? 'editing' : ''}>
-          <span className="editing-icon">!</span>
-          <TextField
-            id="body-field"
-            label="Body"
-            error={editingBody}
+        </Form.Group>
+        <Form.Group>
+          <Form.Label htmlFor="body-text-area">
+            Body
+            {editingBody && <Badge variant="warning">Editing</Badge>}
+          </Form.Label>
+          <Form.Control
+            id="body-text-area"
+            as="textarea"
             value={body}
-            multiline={true}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setBody(e.target.value);
             }}
           />
-        </fieldset>
-        <Button variant="contained" color="primary" type="button">
+        </Form.Group>
+        <Button variant="primary" type="button">
           Submit
         </Button>
-      </form>
+      </Form>
     </StyledWritePage>
   );
 };
