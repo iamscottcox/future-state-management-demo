@@ -56,8 +56,6 @@ export const ArtistsPage: FC = () => {
 
   const pages = data?.pagination?.pages || 0;
 
-  console.log('pages', pages);
-
   const handleSearchSubmit = (value: string) => {
     setArtistSearch(value);
     handleReplacePath({ key: 'page', value: 1 });
