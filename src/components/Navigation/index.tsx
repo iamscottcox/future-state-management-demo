@@ -1,5 +1,5 @@
+import { Button } from 'antd';
 import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -42,8 +42,6 @@ export const Navigation = () => (
         </a>
       </Link>
       <Button
-        type="button"
-        variant="secondary"
         onClick={() => {
           console.log('state', store.getState());
         }}
@@ -51,8 +49,6 @@ export const Navigation = () => (
         State
       </Button>
       <Button
-        type="button"
-        variant="secondary"
         onClick={() => {
           if (confirm('Are you sure you want to clear local storage?')) {
             localStorage.clear();

@@ -68,4 +68,12 @@
 * Bundles a lot of code into modules. You import `<Form>` for example and receive everything with it.
 * Limited scope for theming.
 * Classes can ‘bleed’. Adding .jumbotron as a class to a component makes that component just like any other `<Jumobtron />` component.
-* Theming requires .scss files}}}
+* Theming requires .scss files
+
+## Ant Design
+### Pros
+* Very smooth looking components
+### Cons
+* Theming via .scss stylesheets
+  * No JSON object spreading.
+* Janky import syntax. You import a folder and deconstruct into `const`s. Alternatively you can `import` from `antd/dist/*`

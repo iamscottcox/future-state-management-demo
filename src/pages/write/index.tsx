@@ -1,5 +1,5 @@
+import { Button } from 'antd';
 import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useWillUnmount } from 'beautiful-react-hooks';
 import { ChangeEvent, FC, useMemo, useState } from 'react';
@@ -92,9 +92,7 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
             }}
           />
         </Form.Group>
-        <Button variant="primary" type="button">
-          Submit
-        </Button>
+        <Button type="primary">Submit</Button>
       </Form>
     </StyledWritePage>
   );
