@@ -47,9 +47,12 @@
 * Very simple to set up
 * Very customizable components
 * Allows pass through of classNames or IDs to components
+* Nice import syntax
+  * Import via deconstruction or default from directory.
 
 ### Cons
 * Feels 'bloated'...?
+  * Tries to do too much?
 
 ## React Bootstrap
 ### Pros

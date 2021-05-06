@@ -1,6 +1,6 @@
+import { Card } from 'antd';
 import Title from 'antd/lib/typography/Title';
 import { FC } from 'react';
-import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
 
 interface OwnProps {
@@ -16,10 +16,10 @@ type Props = OwnProps;
 const StyledReleasePreview = styled.div`
   margin-bottom: 1rem;
 
-  & .card {
+  & .ant-card-body {
+    padding: 0;
     display: flex;
     align-items: center;
-    flex-direction: row;
 
     img {
       width: 150px;

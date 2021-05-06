@@ -1,4 +1,4 @@
-import Card from 'react-bootstrap/Card';
+import { Card } from 'antd';
 import Link from 'next/link';
 import { FC } from 'react';
 import styled from 'styled-components';
@@ -15,13 +15,17 @@ type Props = OwnProps;
 const StyledArtistPreview = styled.div`
   margin-bottom: 1rem;
 
-  a {
-    display: flex;
-    align-items: center;
+  .ant-card-body {
+    padding: 0;
 
-    img {
-      width: 150px;
-      margin-right: 1rem;
+    a {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 150px;
+        margin-right: 1rem;
+      }
     }
   }
 `;
@@ -29,7 +33,7 @@ const StyledArtistPreview = styled.div`
 export const ArtistPreview: FC<Props> = ({ title, id, coverImage = '' }) => {
   return (
     <StyledArtistPreview key={id}>
-      <Card>
+      <Card hoverable>
         <Link href={`/artists/${id}`}>
           <a>
             <img

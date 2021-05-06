@@ -3,7 +3,7 @@ $theme-colors: (
     "secondary": #c0392b,
 );
 
-@import "~bootstrap/scss/bootstrap";
+@import '~antd/dist/antd.css';
 
 body {
   margin: 0;
