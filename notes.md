@@ -77,3 +77,4 @@
 * Theming via .scss stylesheets
   * No JSON object spreading.
 * Janky import syntax. You import a folder and deconstruct into `const`s. Alternatively you can `import` from `antd/dist/*`
+* Bad support for TypeScript. Requires an import to an extraneous dependency to access Menu event interfaces.
