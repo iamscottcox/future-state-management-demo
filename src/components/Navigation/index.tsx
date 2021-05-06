@@ -1,31 +1,11 @@
-import { Menu, Typography } from 'antd';
+import { Menu } from 'antd';
 import { MenuInfo } from 'rc-menu/lib/interface';
-import styled from 'styled-components';
 
 import { useRouter } from 'next/dist/client/router';
 import SubMenu from 'antd/lib/menu/SubMenu';
 import { SettingOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import store from 'src/state';
-
-const StyledNavigation = styled.div`
-  width: 100%;
-  display: flex;
-  padding: 0.5rem;
-
-  a {
-    padding: 0.5rem;
-    color: white;
-  }
-
-  .spacer {
-    flex: 1 1 auto;
-  }
-
-  button {
-    margin: 0 0.25rem;
-  }
-`;
 
 export const Navigation = () => {
   const [current, setCurrent] = useState<string[]>([]);
