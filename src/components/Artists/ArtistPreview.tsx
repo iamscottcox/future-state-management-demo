@@ -2,6 +2,7 @@ import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import { FC } from 'react';
 import styled from 'styled-components';
+import Title from 'antd/lib/typography/Title';
 
 interface OwnProps {
   id: string;
@@ -39,7 +40,7 @@ export const ArtistPreview: FC<Props> = ({ title, id, coverImage = '' }) => {
               }
               alt={title}
             />
-            <h5>{title}</h5>
+            <Title level={5}>{title}</Title>
           </a>
         </Link>
       </Card>

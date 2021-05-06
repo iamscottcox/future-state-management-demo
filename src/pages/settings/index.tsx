@@ -17,6 +17,7 @@ import {
   setDefaultRegion,
   setShowCurrencySymbol,
 } from 'src/state/slices/settings';
+import Title from 'antd/lib/typography/Title';
 
 interface StateProps {
   defaultCurrency: AppState['settings']['defaultCurrency'];
@@ -66,7 +67,7 @@ export const SettingsPage: FC<Props> = ({
   return (
     <StyledSettingsPage className="settings-page">
       <Form>
-        <h3>Currencies</h3>
+        <Title level={3}>Currencies</Title>
         <Form.Group className="settings-group">
           <Form.Group>
             <Form.Label htmlFor="default-currency-select">
@@ -98,7 +99,7 @@ export const SettingsPage: FC<Props> = ({
             />
           </Form.Group>
         </Form.Group>
-        <h3>Regions</h3>
+        <Title level={3}>Regions</Title>
         <Form.Group className="settings-group">
           <Form.Group>
             <Form.Label

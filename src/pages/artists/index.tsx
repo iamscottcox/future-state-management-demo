@@ -10,6 +10,7 @@ import { parseSearchQuery, replacePath } from 'src/libs/paths';
 import { ArtistSearchContext } from 'src/state/contexts/artistSearch';
 import styled from 'styled-components';
 import Pagination from 'src/components/Pagination';
+import Title from 'antd/lib/typography/Title';
 
 const StyledArtistsPage = styled.div`
   h1 {
@@ -65,7 +66,7 @@ export const ArtistsPage: FC = () => {
   return (
     <StyledArtistsPage>
       <Jumbotron>
-        <h1>Artists</h1>
+        <Title level={1}>Artists</Title>
       </Jumbotron>
       <div className="filters">
         <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />

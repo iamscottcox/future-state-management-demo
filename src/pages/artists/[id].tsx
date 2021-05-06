@@ -10,6 +10,7 @@ import { useReleases } from 'src/hooks/releases';
 import { getPrimaryArtistImage } from 'src/libs/artists';
 import { parseSearchQuery, replacePath } from 'src/libs/paths';
 import Pagination from 'src/components/Pagination';
+import Title from 'antd/lib/typography/Title';
 
 const StyledArtist = styled.div`
   .jumbotron {
@@ -97,12 +98,16 @@ export const ArtistPage: FC = () => {
   return (
     <StyledArtist>
       <div className="jumbotron">
-        <h1 className="artist-name">{name}</h1>
+        <Title level={1} className="artist-name">
+          {name}
+        </Title>
         <img src={uri} />
-        <h2 className="artist-real-name">{realname}</h2>
+        <Title level={2} className="artist-real-name">
+          {realname}
+        </Title>
       </div>
       <div className="releases">
-        <h4>Releases</h4>
+        <Title level={4}>Releases</Title>
         <div className="filters">
           <Form className="sorting">
             <Form.Group>

@@ -1,3 +1,4 @@
+import Title from 'antd/lib/typography/Title';
 import { FC } from 'react';
 import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
@@ -46,9 +47,9 @@ export const ReleasePreview: FC<Props> = ({
           }
           alt={title}
         />
-        <h5>
+        <Title level={5}>
           {title} ({year})
-        </h5>
+        </Title>
       </Card>
     </StyledReleasePreview>
   );
