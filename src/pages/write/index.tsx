@@ -52,6 +52,7 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
           }
         >
           <Input
+            value={title}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setTitle(e.target.value);
             }}
@@ -65,6 +66,7 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
           }
         >
           <Input.TextArea
+            value={body}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
               setBody(e.target.value);
             }}
