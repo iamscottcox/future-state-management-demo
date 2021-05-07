@@ -1,5 +1,4 @@
-import { Col, Divider, Pagination, Row, Space } from 'antd';
-import Jumbotron from 'react-bootstrap/Jumbotron';
+import { Pagination } from 'antd';
 import { useRouter } from 'next/dist/client/router';
 import { FC, useContext, useMemo } from 'react';
 
@@ -50,9 +49,7 @@ export const ArtistsPage: FC = () => {
 
   return (
     <StyledArtistsPage>
-      <Jumbotron>
-        <Title level={1}>Artists</Title>
-      </Jumbotron>
+      <Title level={1}>Artists</Title>
       <div className="filters">
         <div>
           <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />

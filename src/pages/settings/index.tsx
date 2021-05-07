@@ -1,5 +1,5 @@
 import { Checkbox, Divider, Form, Select } from 'antd';
-import { ChangeEvent, FC } from 'react';
+import { FC } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -68,7 +68,7 @@ export const SettingsPage: FC<Props> = ({
       <Divider orientation="left">
         <Title level={3}>Currencies</Title>
       </Divider>
-      <Form layout="inline">
+      <Form labelCol={{ span: 6 }}>
         <Form.Item label="Default Currency">
           <Select value={defaultCurrency} onChange={setDefaultCurrency}>
             {CURRENCIES.map((currency) => {
@@ -90,7 +90,7 @@ export const SettingsPage: FC<Props> = ({
       <Divider orientation="left">
         <Title level={3}>Regions</Title>
       </Divider>
-      <Form layout="inline">
+      <Form labelCol={{ span: 6 }}>
         <Form.Item label="Default Region">
           <Select value={defaultRegion} onChange={setDefaultRegion}>
             {REGIONS.map((region) => {

@@ -1,4 +1,4 @@
-import Spinner from 'react-bootstrap/Spinner';
+import { Spin } from 'antd';
 import { FC } from 'react';
 import styled from 'styled-components';
 
@@ -17,7 +17,7 @@ type Props = OwnProps;
 export const Loading: FC<Props> = ({ isLoading = true }) => {
   return isLoading ? (
     <StyledCircularProgress>
-      <Spinner animation="border" variant="primary" />
+      <Spin size="large" />
     </StyledCircularProgress>
   ) : null;
 };
