@@ -1,4 +1,4 @@
-import Form from 'react-bootstrap/Form';
+import { Col, Divider, Pagination, Row, Space } from 'antd';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import { useRouter } from 'next/dist/client/router';
 import { FC, useContext, useMemo } from 'react';
@@ -9,7 +9,6 @@ import { useArtists } from 'src/hooks/artists';
 import { parseSearchQuery, replacePath } from 'src/libs/paths';
 import { ArtistSearchContext } from 'src/state/contexts/artistSearch';
 import styled from 'styled-components';
-import Pagination from 'src/components/Pagination';
 import Title from 'antd/lib/typography/Title';
 
 const StyledArtistsPage = styled.div`
@@ -23,18 +22,6 @@ const StyledArtistsPage = styled.div`
 
     .spacer {
       flex: 1 1 auto;
-    }
-
-    .pagination {
-      align-items: flex-end;
-    }
-
-    > * {
-      margin-right: 1rem;
-
-      &::last-of-type {
-        margin-right: none;
-      }
     }
   }
 `;
@@ -54,7 +41,7 @@ export const ArtistsPage: FC = () => {
     perPage,
   });
 
-  const pages = data?.pagination?.pages || 0;
+  const items = data?.pagination?.items || 0;
 
   const handleSearchSubmit = (value: string) => {
     setArtistSearch(value);
@@ -67,28 +54,17 @@ export const ArtistsPage: FC = () => {
         <Title level={1}>Artists</Title>
       </Jumbotron>
       <div className="filters">
-        <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />
-        <Form>
-          <Form.Group>
-            <Form.Label htmlFor="rows-per-page-select">
-              Rows per page
-            </Form.Label>
-            <Form.Control
-              id="rows-per-page-select"
-              as="select"
-              onChange={(e) => {
-                setPerPage(e.target.value);
-              }}
-            >
-              <option value="100">100</option>
-              <option value="50">50</option>
-              <option value="25">25</option>
-              <option value="10">10</option>
-            </Form.Control>
-          </Form.Group>
-        </Form>
+        <div>
+          <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />
+        </div>
         <div className="spacer" />
-        <Pagination page={page} pages={pages} />
+        <Pagination
+          showSizeChanger
+          onShowSizeChange={(current, pageSize) => setPerPage(`${pageSize}`)}
+          defaultCurrent={page}
+          total={items}
+          pageSizeOptions={['10', '25', '50', '100']}
+        />
       </div>
       <Artists artists={data?.results} isLoading={isLoading} error={error} />
     </StyledArtistsPage>
