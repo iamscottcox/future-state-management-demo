@@ -15,11 +15,10 @@ const StyledArtist = styled.div`
   .jumbotron {
     text-align: center;
     margin-bottom: 4rem;
-    padding: 2rem 0;
     background: none;
 
     img {
-      max-height: 500px;
+      max-height: 400px;
       width: auto;
       margin: 2rem 0;
     }
