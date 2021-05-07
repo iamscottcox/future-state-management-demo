@@ -1,6 +1,6 @@
+import { Form, Input, Pagination, Select } from 'antd';
 import { useRouter } from 'next/dist/client/router';
 import { FC, useMemo } from 'react';
-import Form from 'react-bootstrap/Form';
 import styled from 'styled-components';
 
 import { Loading } from 'src/components/Loading';
@@ -9,7 +9,6 @@ import { useArtistById } from 'src/hooks/artists';
 import { useReleases } from 'src/hooks/releases';
 import { getPrimaryArtistImage } from 'src/libs/artists';
 import { parseSearchQuery, replacePath } from 'src/libs/paths';
-import Pagination from 'src/components/Pagination';
 import Title from 'antd/lib/typography/Title';
 
 const StyledArtist = styled.div`
@@ -29,18 +28,14 @@ const StyledArtist = styled.div`
   .filters {
     display: flex;
     margin-bottom: 2rem;
+    align-items: center;
 
-    .sorting {
+    .ant-form {
       display: flex;
       align-items: center;
-      flex-direction: row;
 
       > * {
         margin-right: 1rem;
-
-        &::last-of-type {
-          margin-right: 0;
-        }
       }
     }
 
@@ -109,7 +104,33 @@ export const ArtistPage: FC = () => {
       <div className="releases">
         <Title level={4}>Releases</Title>
         <div className="filters">
-          <Form className="sorting">
+          <Form layout="vertical">
+            <Form.Item label="Sort By">
+              <Select
+                value={sort}
+                onChange={(value) => {
+                  handleReplacePath({ key: 'sort', value });
+                }}
+              >
+                <Select.Option value="year">Year</Select.Option>
+                <Select.Option value="title">Title</Select.Option>
+                <Select.Option value="format">Format</Select.Option>
+              </Select>
+            </Form.Item>
+            <Form.Item label="Sort Order">
+              <Select
+                value={sortOrder}
+                onChange={(value) => {
+                  handleReplacePath({ key: 'sortOrder', value });
+                }}
+              >
+                <Select.Option value="desc">Descending</Select.Option>
+                <Select.Option value="asc">Ascending</Select.Option>
+              </Select>
+            </Form.Item>
+          </Form>
+
+          {/* <Form className="sorting">
             <Form.Group>
               <Form.Label htmlFor="sort-type-select">Sort By</Form.Label>
               <Form.Control
@@ -143,27 +164,21 @@ export const ArtistPage: FC = () => {
                 <option value="asc">Ascending</option>
               </Form.Control>
             </Form.Group>
-            <Form.Group>
-              <Form.Label htmlFor="rows-per-page-select">
-                Rows per page
-              </Form.Label>
-              <Form.Control
-                id="rows-per-page-select"
-                as="select"
-                onChange={(e) => {
-                  const value = e.target.value as string;
-                  handleReplacePath({ key: 'perPage', value });
-                }}
-              >
-                <option value="100">100</option>
-                <option value="50">50</option>
-                <option value="25">25</option>
-                <option value="10">10</option>
-              </Form.Control>
-            </Form.Group>
-          </Form>
+          </Form> */}
           <div className="spacer" />
-          <Pagination page={page} pages={releasesData?.pagination?.pages} />
+          <Pagination
+            showSizeChanger
+            onShowSizeChange={(current, pageSize) =>
+              handleReplacePath({ key: 'perPage', value: pageSize })
+            }
+            onChange={(page) => {
+              handleReplacePath({ key: 'page', value: page });
+            }}
+            defaultCurrent={page}
+            total={releasesData?.pagination?.items}
+            pageSize={parseInt(perPage || '100')}
+            pageSizeOptions={['10', '25', '50', '100']}
+          />
         </div>
         <Releases
           releases={releasesData?.releases}

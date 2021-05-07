@@ -1,6 +1,5 @@
-import { Button } from 'antd';
-import Badge from 'react-bootstrap/Badge';
-import Form from 'react-bootstrap/Form';
+import { Button, Tag, Form, Input } from 'antd';
+import Title from 'antd/lib/typography/Title';
 import { useWillUnmount } from 'beautiful-react-hooks';
 import { ChangeEvent, FC, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
@@ -8,7 +7,6 @@ import { getWriteDraft } from 'src/getters/drafts';
 
 import { AppDispatch, AppState } from 'src/state';
 import { setDraft } from 'src/state/slices/drafts';
-import styled from 'styled-components';
 
 interface StateProps {
   draft: AppState['drafts']['write'];
@@ -19,25 +17,6 @@ interface DispatchProps {
 interface OwnProps {}
 
 type Props = StateProps & DispatchProps & OwnProps;
-
-const StyledWritePage = styled.div`
-  .article-edits-warning .badge.badge-warning {
-    margin-right: 0.5rem;
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-
-    .form-group {
-      margin-bottom: 1rem;
-
-      .badge.badge-warning {
-        margin-left: 0.5rem;
-      }
-    }
-  }
-`;
 
 export const WritePage: FC<Props> = ({ draft, setDraft }) => {
   const { title: draftTitle, body: draftBody } = draft;
@@ -57,44 +36,47 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
   });
 
   return (
-    <StyledWritePage>
+    <div className="write-page">
+      <Title level={1}>Write</Title>
       <p style={{ opacity: isDraft ? 1 : 0 }} className="article-edits-warning">
-        <Badge variant="warning">Warning</Badge>
+        <Tag color="gold-inverse">Editing</Tag>
         This article is being edited
       </p>
-      <Form>
-        <Form.Group>
-          <Form.Label htmlFor="title-input">
-            Title
-            {editingTitle && <Badge variant="warning">Editing</Badge>}
-          </Form.Label>
-          <Form.Control
-            id="title-input"
-            type="text"
-            value={title}
-            size="lg"
+
+      <Form labelCol={{ span: 4 }} wrapperCol={{ span: 16 }}>
+        <Form.Item
+          label={
+            <span>
+              {editingTitle && <Tag color="gold-inverse">Editing</Tag>} Title
+            </span>
+          }
+        >
+          <Input
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setTitle(e.target.value);
             }}
           />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label htmlFor="body-text-area">
-            Body
-            {editingBody && <Badge variant="warning">Editing</Badge>}
-          </Form.Label>
-          <Form.Control
-            id="body-text-area"
-            as="textarea"
-            value={body}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+        </Form.Item>
+        <Form.Item
+          label={
+            <span>
+              {editingBody && <Tag color="gold-inverse">Editing</Tag>} Body
+            </span>
+          }
+        >
+          <Input.TextArea
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
               setBody(e.target.value);
             }}
           />
-        </Form.Group>
-        <Button type="primary">Submit</Button>
+        </Form.Item>
+        <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+          <Button type="primary" block={false}>
+            Submit
+          </Button>
+        </Form.Item>
       </Form>
-    </StyledWritePage>
+    </div>
   );
 };
 

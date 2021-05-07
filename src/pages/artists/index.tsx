@@ -60,6 +60,7 @@ export const ArtistsPage: FC = () => {
         <div className="spacer" />
         <Pagination
           showSizeChanger
+          onChange={(page) => handleReplacePath({ key: 'page', value: page })}
           onShowSizeChange={(current, pageSize) => setPerPage(`${pageSize}`)}
           defaultCurrent={page}
           total={items}
