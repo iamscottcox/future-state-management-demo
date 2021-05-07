@@ -29,15 +29,6 @@ const StyledArtist = styled.div`
     margin-bottom: 2rem;
     align-items: center;
 
-    .ant-form {
-      display: flex;
-      align-items: center;
-
-      > * {
-        margin-right: 1rem;
-      }
-    }
-
     .spacer {
       flex: 1 1 auto;
     }
@@ -103,7 +94,7 @@ export const ArtistPage: FC = () => {
       <div className="releases">
         <Title level={4}>Releases</Title>
         <div className="filters">
-          <Form layout="vertical">
+          <Form layout="inline">
             <Form.Item label="Sort By">
               <Select
                 value={sort}

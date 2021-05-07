@@ -1,5 +1,5 @@
+import { Checkbox, Divider, Form, Select } from 'antd';
 import { ChangeEvent, FC } from 'react';
-import Form from 'react-bootstrap/Form';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -18,6 +18,8 @@ import {
   setShowCurrencySymbol,
 } from 'src/state/slices/settings';
 import Title from 'antd/lib/typography/Title';
+import { SelectValue } from 'antd/lib/select';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
 interface StateProps {
   defaultCurrency: AppState['settings']['defaultCurrency'];
@@ -26,13 +28,9 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setDefaultCurrency: (
-    e: ChangeEvent<{ name?: string | undefined; value: unknown }>
-  ) => void;
-  setDefaultRegion: (
-    e: ChangeEvent<{ name?: string | undefined; value: unknown }>
-  ) => void;
-  setShowCurrencySymbol: (e: ChangeEvent<HTMLInputElement>) => void;
+  setDefaultCurrency: (value: SelectValue) => void;
+  setDefaultRegion: (value: SelectValue) => void;
+  setShowCurrencySymbol: (e: CheckboxChangeEvent) => void;
 }
 
 interface OwnProps {}
@@ -40,7 +38,7 @@ interface OwnProps {}
 type Props = StateProps & DispatchProps & OwnProps;
 
 const StyledSettingsPage = styled.div`
-  .settings-group {
+  /* .settings-group {
     display: flex;
     border: 1px solid #333;
     padding: 1rem;
@@ -53,7 +51,7 @@ const StyledSettingsPage = styled.div`
         margin-right: 0;
       }
     }
-  }
+  } */
 `;
 
 export const SettingsPage: FC<Props> = ({
@@ -66,64 +64,44 @@ export const SettingsPage: FC<Props> = ({
 }) => {
   return (
     <StyledSettingsPage className="settings-page">
-      <Form>
+      <Title level={1}>Settings</Title>
+      <Divider orientation="left">
         <Title level={3}>Currencies</Title>
-        <Form.Group className="settings-group">
-          <Form.Group>
-            <Form.Label htmlFor="default-currency-select">
-              Default Currency
-            </Form.Label>
-            <Form.Control
-              as="select"
-              id="default-currency-select"
-              value={defaultCurrency}
-              onChange={setDefaultCurrency}
-            >
-              {CURRENCIES.map((currency) => {
-                return (
-                  <option key={currency} value={currency}>
-                    {currency}
-                  </option>
-                );
-              })}
-            </Form.Control>
-          </Form.Group>
-          <Form.Group>
-            <Form.Label htmlFor="show-currency-symbol-checkbox">
-              Show Currency Symbol?
-            </Form.Label>
-            <Form.Check
-              id="show-currency-symbol-checkbox"
-              checked={showCurrencySymbol}
-              onChange={setShowCurrencySymbol}
-            />
-          </Form.Group>
-        </Form.Group>
+      </Divider>
+      <Form layout="inline">
+        <Form.Item label="Default Currency">
+          <Select value={defaultCurrency} onChange={setDefaultCurrency}>
+            {CURRENCIES.map((currency) => {
+              return (
+                <Select.Option key={currency} value={currency}>
+                  {currency}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        </Form.Item>
+        <Form.Item label="Show Currency Symbol">
+          <Checkbox
+            checked={showCurrencySymbol}
+            onChange={setShowCurrencySymbol}
+          />
+        </Form.Item>
+      </Form>
+      <Divider orientation="left">
         <Title level={3}>Regions</Title>
-        <Form.Group className="settings-group">
-          <Form.Group>
-            <Form.Label
-              id="default-region-label"
-              htmlFor="default-region-select"
-            >
-              Default Region
-            </Form.Label>
-            <Form.Control
-              as="select"
-              id="default-region-select"
-              value={defaultRegion}
-              onChange={setDefaultRegion}
-            >
-              {REGIONS.map((region) => {
-                return (
-                  <option key={region} value={region}>
-                    {region}
-                  </option>
-                );
-              })}
-            </Form.Control>
-          </Form.Group>
-        </Form.Group>
+      </Divider>
+      <Form layout="inline">
+        <Form.Item label="Default Region">
+          <Select value={defaultRegion} onChange={setDefaultRegion}>
+            {REGIONS.map((region) => {
+              return (
+                <Select.Option key={region} value={region}>
+                  {region}
+                </Select.Option>
+              );
+            })}
+          </Select>
+        </Form.Item>
       </Form>
     </StyledSettingsPage>
   );
@@ -136,11 +114,11 @@ const mapStateToProps = (state: AppState): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
-  setDefaultCurrency(e) {
-    dispatch(setDefaultCurrency(e.target.value));
+  setDefaultCurrency(value) {
+    dispatch(setDefaultCurrency(value));
   },
-  setDefaultRegion(e) {
-    dispatch(setDefaultRegion(e.target.value));
+  setDefaultRegion(value) {
+    dispatch(setDefaultRegion(value));
   },
   setShowCurrencySymbol(e) {
     dispatch(setShowCurrencySymbol(e.target.checked));
