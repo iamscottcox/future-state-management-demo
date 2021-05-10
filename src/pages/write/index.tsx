@@ -1,4 +1,4 @@
-import { Button, Tag, Form, Input } from 'antd';
+import { Button, Form, Icon, Message } from 'semantic-ui-react';
 import Title from 'antd/lib/typography/Title';
 import { useWillUnmount } from 'beautiful-react-hooks';
 import { ChangeEvent, FC, useMemo, useState } from 'react';
@@ -37,46 +37,40 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
 
   return (
     <div className="write-page">
-      <Title level={1}>Write</Title>
-      <p style={{ opacity: isDraft ? 1 : 0 }} className="article-edits-warning">
-        <Tag color="gold-inverse">Editing</Tag>
-        This article is being edited
-      </p>
+      <h1>Write</h1>
 
-      <Form labelCol={{ span: 4 }} wrapperCol={{ span: 16 }}>
-        <Form.Item
-          label={
-            <span>
-              {editingTitle && <Tag color="gold-inverse">Editing</Tag>} Title
-            </span>
-          }
-        >
-          <Input
+      <Message
+        warning
+        hidden={!isDraft}
+        header="This following parts of this article are being edited:"
+        list={[editingTitle && 'Title', editingBody && 'Body']}
+      />
+
+      <Form>
+        <Form.Field>
+          <label>
+            {editingTitle && <Icon name="warning circle" color="yellow" />}
+            Title
+          </label>
+          <input
             value={title}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setTitle(e.target.value);
             }}
           />
-        </Form.Item>
-        <Form.Item
-          label={
-            <span>
-              {editingBody && <Tag color="gold-inverse">Editing</Tag>} Body
-            </span>
-          }
-        >
-          <Input.TextArea
+        </Form.Field>
+        <Form.Field>
+          <label>
+            {editingBody && <Icon name="warning circle" color="yellow" />} Body
+          </label>
+          <textarea
             value={body}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
               setBody(e.target.value);
             }}
           />
-        </Form.Item>
-        <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
-          <Button type="primary" block={false}>
-            Submit
-          </Button>
-        </Form.Item>
+        </Form.Field>
+        <Button type="submit">Submit</Button>
       </Form>
     </div>
   );

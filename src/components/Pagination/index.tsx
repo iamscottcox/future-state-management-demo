@@ -3,7 +3,7 @@ import BootstrapPagination from 'react-bootstrap/Pagination';
 
 import { usePagination } from 'src/hooks/pagination';
 import { range } from 'src/libs/numbers';
-import { createNewPath, replacePath } from 'src/libs/paths';
+import { replacePath } from 'src/libs/paths';
 import { useRouter } from 'next/dist/client/router';
 
 interface OwnProps {

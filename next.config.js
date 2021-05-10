@@ -1,6 +1,4 @@
-const withLess = require('@zeit/next-less');
-
-module.exports = withLess({
+module.exports = {
   lessLoaderOptions: {
     javascriptEnabled: true,
   },
@@ -8,4 +6,4 @@ module.exports = withLess({
     PRIMARY_COLOUR: '#f1c40f',
     SECONDARY_COLOUR: '#f39c12i',
   },
-});
+};
