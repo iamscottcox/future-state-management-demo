@@ -1,8 +1,7 @@
-import { Card } from 'antd';
-import Link from 'next/link';
-import { FC } from 'react';
+import { Card, Image, Item } from 'semantic-ui-react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
-import Title from 'antd/lib/typography/Title';
+import { Link } from '@material-ui/core';
 
 interface OwnProps {
   id: string;
@@ -15,36 +14,40 @@ type Props = OwnProps;
 const StyledArtistPreview = styled.div`
   margin-bottom: 1rem;
 
-  .ant-card-body {
-    padding: 0;
-
-    a {
-      display: flex;
-      align-items: center;
-
-      img {
-        width: 150px;
-        margin-right: 1rem;
-      }
-    }
+  .item {
+    align-items: center;
   }
 `;
 
 export const ArtistPreview: FC<Props> = ({ title, id, coverImage = '' }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <StyledArtistPreview key={id}>
-      <Card hoverable>
+      <Card
+        raised={isHovered}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        fluid
+      >
         <Link href={`/artists/${id}`}>
           <a>
-            <img
-              src={
-                coverImage.includes('spacer.gif')
-                  ? 'https://via.placeholder.com/150'
-                  : coverImage
-              }
-              alt={title}
-            />
-            <Title level={5}>{title}</Title>
+            <Item.Group>
+              <Item>
+                <Item.Image
+                  size="small"
+                  src={
+                    coverImage.includes('spacer.gif')
+                      ? 'https://via.placeholder.com/150'
+                      : coverImage
+                  }
+                />
+
+                <Item.Content>
+                  <Item.Header>{title}</Item.Header>
+                </Item.Content>
+              </Item>
+            </Item.Group>
           </a>
         </Link>
       </Card>
