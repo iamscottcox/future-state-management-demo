@@ -54,35 +54,6 @@ export const Navigation = () => {
           </Menu.Item>
         </Menu.ItemGroup>
       </SubMenu>
-
-      {/* <Link href="/artists">
-        <a>Artists</a>
-      </Link>
-      <Link href="/write">
-        <a>Write</a>
-      </Link>
-      <div className="spacer" />
-      <Link href="/settings">
-        <a>
-          <SettingsIcon />
-        </a>
-      </Link>
-      <Button
-        onClick={() => {
-          console.log('state', store.getState());
-        }}
-      >
-        State
-      </Button>
-      <Button
-        onClick={() => {
-          if (confirm('Are you sure you want to clear local storage?')) {
-            localStorage.clear();
-          }
-        }}
-      >
-        Clear Local Storage
-      </Button> */}
     </Menu>
   );
 };
