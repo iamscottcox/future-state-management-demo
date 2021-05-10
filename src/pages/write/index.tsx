@@ -1,5 +1,4 @@
-import { Button, Form, Icon, Message } from 'semantic-ui-react';
-import Title from 'antd/lib/typography/Title';
+import { Button, Form, Header, Icon, Message } from 'semantic-ui-react';
 import { useWillUnmount } from 'beautiful-react-hooks';
 import { ChangeEvent, FC, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
@@ -37,15 +36,13 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
 
   return (
     <div className="write-page">
-      <h1>Write</h1>
-
+      <Header size="huge">Write</Header>
       <Message
         warning
         hidden={!isDraft}
         header="This following parts of this article are being edited:"
         list={[editingTitle && 'Title', editingBody && 'Body']}
       />
-
       <Form>
         <Form.Field>
           <label>

@@ -1,88 +1,66 @@
-import { Menu } from 'antd';
-import { MenuInfo } from 'rc-menu/lib/interface';
-
 import { useRouter } from 'next/dist/client/router';
-import SubMenu from 'antd/lib/menu/SubMenu';
-import { SettingOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { MouseEvent as ReactMouseEvent, useState } from 'react';
+import { Dropdown, Menu, MenuItemProps } from 'semantic-ui-react';
+
 import store from 'src/state';
 
 export const Navigation = () => {
-  const [current, setCurrent] = useState<string[]>([]);
+  const [current, setCurrent] = useState<string>('/artists');
   const router = useRouter();
 
-  const handleClick = (route: string) => ({ key }: MenuInfo) => {
-    setCurrent([key as string]);
-    router.push(route);
+  const handleOnClick = (
+    e: ReactMouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>,
+    { name = '/artists' }: MenuItemProps
+  ) => {
+    setCurrent(name);
+    router.push(name);
   };
 
   return (
-    <Menu mode="horizontal" selectedKeys={current}>
-      <Menu.Item key="artists" onClick={handleClick('/artists')}>
+    <Menu fixed>
+      <Menu.Item
+        name="/artists"
+        active={current === '/artists'}
+        onClick={handleOnClick}
+      >
         Artists
       </Menu.Item>
-      <Menu.Item title="Write" key="write" onClick={handleClick('/write')}>
+      <Menu.Item
+        name="/write"
+        active={current === '/write'}
+        onClick={handleOnClick}
+      >
         Write
       </Menu.Item>
-      <SubMenu
-        style={{ float: 'right' }}
-        key="SubMenu"
-        icon={<SettingOutlined />}
-        title="Settings"
-      >
-        <Menu.Item key="settings" onClick={handleClick('/settings')}>
-          Settings Page
-        </Menu.Item>
-        <Menu.ItemGroup title="Debug">
-          <Menu.Item
-            key="show-state"
-            onClick={() => {
-              console.log('state', store.getState());
-            }}
-          >
-            Show State
-          </Menu.Item>
-          <Menu.Item
-            key="clear-local-storage"
-            onClick={() => {
-              if (confirm('Are you sure you want to clear local storage?')) {
+      <Menu.Menu position="right">
+        <Dropdown text="Settings" pointing className="link item">
+          <Dropdown.Menu>
+            <Dropdown.Item
+              active={current === '/settings'}
+              onClick={() => {
+                setCurrent('/settings');
+                router.push('/settings');
+              }}
+            >
+              Settings Page
+            </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Header>Debug</Dropdown.Header>
+            <Dropdown.Item
+              onClick={() => console.log('state', store.getState())}
+            >
+              Show State
+            </Dropdown.Item>
+            <Dropdown.Item
+              onClick={() => {
                 localStorage.clear();
-              }
-            }}
-          >
-            Clear Local Storage
-          </Menu.Item>
-        </Menu.ItemGroup>
-      </SubMenu>
-
-      {/* <Link href="/artists">
-        <a>Artists</a>
-      </Link>
-      <Link href="/write">
-        <a>Write</a>
-      </Link>
-      <div className="spacer" />
-      <Link href="/settings">
-        <a>
-          <SettingsIcon />
-        </a>
-      </Link>
-      <Button
-        onClick={() => {
-          console.log('state', store.getState());
-        }}
-      >
-        State
-      </Button>
-      <Button
-        onClick={() => {
-          if (confirm('Are you sure you want to clear local storage?')) {
-            localStorage.clear();
-          }
-        }}
-      >
-        Clear Local Storage
-      </Button> */}
+              }}
+            >
+              Clear Local Storage
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Menu.Menu>
     </Menu>
   );
 };
