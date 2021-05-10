@@ -1,6 +1,12 @@
 import { Form, Pagination, PaginationProps, Select } from 'semantic-ui-react';
 import { useRouter } from 'next/dist/client/router';
-import { FC, MouseEvent as ReactMouseEvent, useContext, useMemo } from 'react';
+import {
+  FC,
+  MouseEvent as ReactMouseEvent,
+  SyntheticEvent,
+  useContext,
+  useMemo,
+} from 'react';
 
 import { Artists } from 'src/components/Artists';
 import Search from 'src/components/Filters/Search';
@@ -78,11 +84,16 @@ export const ArtistsPage: FC = () => {
           <Select
             fluid
             value={perPage}
+            onChange={(e, data) => {
+              const value = (data.value as string) || '1';
+              handleReplacePath({ key: 'page', value: 1 });
+              setPerPage(value);
+            }}
             options={[
-              { key: '100', value: '100', text: '100' },
-              { key: '50', value: '50', text: '50' },
-              { key: '25', value: '25', text: '25' },
               { key: '10', value: '10', text: '10' },
+              { key: '25', value: '25', text: '25' },
+              { key: '50', value: '50', text: '50' },
+              { key: '100', value: '100', text: '100' },
             ]}
           />
         </div>

@@ -17,7 +17,7 @@ export const Navigation = () => {
   };
 
   return (
-    <Menu fixed>
+    <Menu fixed="top">
       <Menu.Item
         name="/artists"
         active={current === '/artists'}
