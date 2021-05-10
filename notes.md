@@ -53,6 +53,7 @@
 ### Cons
 * Feels 'bloated'...?
   * Tries to do too much?
+* Not as visually appealing as other options (and everything is using it these days).
 
 ## React Bootstrap
 ### Pros
@@ -73,8 +74,13 @@
 ## Ant Design
 ### Pros
 * Very smooth looking components
+* Components do a lot of things and very neatly.
+  * Similar scope as Material-UI, but doesn't feel quite so bloated.
 ### Cons
 * Theming via .scss stylesheets
   * No JSON object spreading.
 * Janky import syntax. You import a folder and deconstruct into `const`s. Alternatively you can `import` from `antd/dist/*`
 * Bad support for TypeScript. Requires an import to an extraneous dependency to access Menu event interfaces.
+* Uses Less
+  * Not too much of a problem considering that it's more than likely that we'll use styled-components for our own things.
+  * If we absolutely MUST use Sass, there's a guide for doing that here: https://gist.github.com/Kruemelkatze/057f01b8e15216ae707dc7e6c9061ef7. It's a bit long-winded though.

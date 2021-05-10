@@ -2,17 +2,24 @@
 import { useRouter } from 'next/dist/client/router';
 import { createContext, FC, useEffect, useState } from 'react';
 
-export const ArtistSearchContext = createContext({
+interface ArtistSearchContextSchema {
+  artistSearch: string;
+  setArtistSearch: (value: string) => void;
+  perPage: number | string;
+  setPerPage: (value: string | number) => void;
+}
+
+export const ArtistSearchContext = createContext<ArtistSearchContextSchema>({
   artistSearch: '',
-  setArtistSearch: (value: string) => {},
+  setArtistSearch: (value) => {},
   perPage: '100',
-  setPerPage: (value: string) => {},
+  setPerPage: (value) => {},
 });
 
 export const ArtistSearchContextProvider: FC = ({ children }) => {
   const { isReady } = useRouter();
   const [artistSearch, setArtistSearch] = useState('');
-  const [perPage, setPerPage] = useState('100');
+  const [perPage, setPerPage] = useState<string | number>('100');
 
   useEffect(() => {
     if (isReady) {
@@ -32,7 +39,6 @@ export const ArtistSearchContextProvider: FC = ({ children }) => {
         perPage,
         setPerPage: (value) => {
           setPerPage(value);
-          localStorage.setItem('artistPerPage', value);
         },
       }}
     >

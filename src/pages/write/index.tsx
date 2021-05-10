@@ -37,6 +37,7 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
 
   return (
     <div className="write-page">
+      <Title level={1}>Write</Title>
       <p style={{ opacity: isDraft ? 1 : 0 }} className="article-edits-warning">
         <Tag color="gold-inverse">Editing</Tag>
         This article is being edited

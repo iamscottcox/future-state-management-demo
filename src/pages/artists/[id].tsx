@@ -1,4 +1,4 @@
-import { Form, Input, Pagination, Select } from 'antd';
+import { Divider, Form, Pagination, Select } from 'antd';
 import { useRouter } from 'next/dist/client/router';
 import { FC, useMemo } from 'react';
 import styled from 'styled-components';
@@ -92,7 +92,9 @@ export const ArtistPage: FC = () => {
         </Title>
       </div>
       <div className="releases">
-        <Title level={4}>Releases</Title>
+        <Divider>
+          <Title level={3}>Releases</Title>
+        </Divider>
         <div className="filters">
           <Form layout="inline">
             <Form.Item label="Sort By">
@@ -119,50 +121,19 @@ export const ArtistPage: FC = () => {
               </Select>
             </Form.Item>
           </Form>
-
-          {/* <Form className="sorting">
-            <Form.Group>
-              <Form.Label htmlFor="sort-type-select">Sort By</Form.Label>
-              <Form.Control
-                id="sort-type-select"
-                as="select"
-                value={sort}
-                onChange={(e) => {
-                  const value = e.target.value as string;
-                  handleReplacePath({ key: 'sort', value });
-                }}
-              >
-                <option value="year">Year</option>
-                <option value="title">Title</option>
-                <option value="format">Format</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label htmlFor="sort-order-select">
-                Sort Direction
-              </Form.Label>
-              <Form.Control
-                id="sort-order-select"
-                as="select"
-                value={sortOrder}
-                onChange={(e) => {
-                  const value = e.target.value as string;
-                  handleReplacePath({ key: 'sortOrder', value });
-                }}
-              >
-                <option value="desc">Descending</option>
-                <option value="asc">Ascending</option>
-              </Form.Control>
-            </Form.Group>
-          </Form> */}
           <div className="spacer" />
           <Pagination
             showSizeChanger
             onShowSizeChange={(current, pageSize) =>
-              handleReplacePath({ key: 'perPage', value: pageSize })
+              handleReplacePath([
+                { key: 'perPage', value: pageSize },
+                { key: 'page', value: 1 },
+              ])
             }
             onChange={(page) => {
-              handleReplacePath({ key: 'page', value: page });
+              if (page > 0) {
+                handleReplacePath({ key: 'page', value: page });
+              }
             }}
             defaultCurrent={page}
             total={releasesData?.pagination?.items}

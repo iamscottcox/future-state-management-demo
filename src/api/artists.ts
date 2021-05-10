@@ -1,7 +1,7 @@
 export interface FetchArtistsOptions {
   search: string;
   pageNumber?: number;
-  perPage?: string;
+  perPage?: string | number;
 }
 
 export type FetchArtistsQueryKey = [string, FetchArtistsOptions];
