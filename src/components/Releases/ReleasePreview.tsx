@@ -1,4 +1,4 @@
-import { Card } from 'antd';
+import { Card } from '@blueprintjs/core';
 import Title from 'antd/lib/typography/Title';
 import { FC } from 'react';
 import styled from 'styled-components';
@@ -16,7 +16,7 @@ type Props = OwnProps;
 const StyledReleasePreview = styled.div`
   margin-bottom: 1rem;
 
-  & .ant-card-body {
+  & .bp3-card {
     padding: 0;
     display: flex;
     align-items: center;
@@ -47,9 +47,9 @@ export const ReleasePreview: FC<Props> = ({
           }
           alt={title}
         />
-        <Title level={5}>
+        <h3>
           {title} ({year})
-        </Title>
+        </h3>
       </Card>
     </StyledReleasePreview>
   );

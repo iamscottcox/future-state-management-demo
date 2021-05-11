@@ -86,11 +86,16 @@
   * If we absolutely MUST use Sass, there's a guide for doing that here: https://gist.github.com/Kruemelkatze/057f01b8e15216ae707dc7e6c9061ef7. It's a bit long-winded though.
   * Requires use of @zeit/next-less which is deprecated and disables Next.js's in-built CSS loaders.
     * Might not be a problem if we're using styled-components?
+* Size levels are text based, not numbered.
 
 ## Blueprint JS
 ### Pros
 * Written in TypeScript
   * Has its own `*.d.ts` files
+* Simple import of CSS (No Less! 😀)
+* Simple way to add interactivity to `<Card />` components.
+* Modules mapped under `@blueprintjs`
+  * Shows an understanding of modern library building practices.
 ### Cons
 * Requires the following:
   * Map

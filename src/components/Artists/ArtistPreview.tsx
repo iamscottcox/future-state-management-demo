@@ -1,4 +1,4 @@
-import { Card } from 'antd';
+import { Card } from '@blueprintjs/core';
 import Link from 'next/link';
 import { FC } from 'react';
 import styled from 'styled-components';
@@ -15,7 +15,7 @@ type Props = OwnProps;
 const StyledArtistPreview = styled.div`
   margin-bottom: 1rem;
 
-  .ant-card-body {
+  .bp3-card {
     padding: 0;
 
     a {
@@ -33,7 +33,7 @@ const StyledArtistPreview = styled.div`
 export const ArtistPreview: FC<Props> = ({ title, id, coverImage = '' }) => {
   return (
     <StyledArtistPreview key={id}>
-      <Card hoverable>
+      <Card interactive>
         <Link href={`/artists/${id}`}>
           <a>
             <img
@@ -44,7 +44,7 @@ export const ArtistPreview: FC<Props> = ({ title, id, coverImage = '' }) => {
               }
               alt={title}
             />
-            <Title level={5}>{title}</Title>
+            <h3>{title}</h3>
           </a>
         </Link>
       </Card>
