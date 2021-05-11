@@ -10,7 +10,7 @@ import { Page } from 'src/components/Page';
 import store, { persistor } from 'src/state';
 import { ArtistSearchContextProvider } from 'src/state/contexts/artistSearch';
 
-import 'semantic-ui-css/semantic.min.css';
+import 'semantic-ui-less/semantic.less';
 
 const queryClient = new QueryClient();
 

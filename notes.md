@@ -99,3 +99,7 @@
   * Requires building your own CSS bundle via Gulp
   * Uses Less as well (whyyyyyy?)
     * Requires deprecated @zeit/next-less plugin
+  * Running `npx @semantic-ui-react/bootstrap`:
+    * checks for (and requires) the presence of modules we won't use ¯\_(ツ)_/¯
+    * Requires a craco.config.js file (because it assumes we've used create-react-app)
+  * DEALBREAKER: Set up involves committing an entire dependency into git. This is a no no.
