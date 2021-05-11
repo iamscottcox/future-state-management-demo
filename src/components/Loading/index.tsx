@@ -1,5 +1,5 @@
-import { Spin } from 'antd';
 import { FC } from 'react';
+import { Loader } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 const StyledCircularProgress = styled.div`
@@ -17,7 +17,7 @@ type Props = OwnProps;
 export const Loading: FC<Props> = ({ isLoading = true }) => {
   return isLoading ? (
     <StyledCircularProgress>
-      <Spin size="large" />
+      <Loader active={isLoading} centered inline />
     </StyledCircularProgress>
   ) : null;
 };

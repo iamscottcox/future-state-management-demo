@@ -1,6 +1,12 @@
-import { Divider, Form, Pagination, Select } from 'antd';
+import {
+  Pagination,
+  Divider,
+  Select,
+  Header,
+  PaginationProps,
+} from 'semantic-ui-react';
 import { useRouter } from 'next/dist/client/router';
-import { FC, useMemo } from 'react';
+import { FC, useMemo, MouseEvent as ReactMouseEvent } from 'react';
 import styled from 'styled-components';
 
 import { Loading } from 'src/components/Loading';
@@ -9,7 +15,6 @@ import { useArtistById } from 'src/hooks/artists';
 import { useReleases } from 'src/hooks/releases';
 import { getPrimaryArtistImage } from 'src/libs/artists';
 import { parseSearchQuery, replacePath } from 'src/libs/paths';
-import Title from 'antd/lib/typography/Title';
 
 const StyledArtist = styled.div`
   .jumbotron {
@@ -28,6 +33,14 @@ const StyledArtist = styled.div`
     display: flex;
     margin-bottom: 2rem;
     align-items: center;
+
+    > * {
+      margin-right: 0.5rem;
+
+      &::last-of-type {
+        margin-right: none;
+      }
+    }
 
     .spacer {
       flex: 1 1 auto;
@@ -77,68 +90,60 @@ export const ArtistPage: FC = () => {
     [images]
   );
 
+  const handlePaginationChange = (
+    e: ReactMouseEvent<HTMLAnchorElement, MouseEvent>,
+    { activePage }: PaginationProps
+  ) => {
+    handleReplacePath({ key: 'page', value: activePage });
+  };
+
   if (artistIsLoading) return <Loading />;
   if (artistError) return <p>There was an error: {artistError.message}</p>;
 
   return (
     <StyledArtist>
       <div className="jumbotron">
-        <Title level={1} className="artist-name">
+        <Header size="huge" className="artist-name">
           {name}
-        </Title>
+        </Header>
         <img src={uri} />
-        <Title level={2} className="artist-real-name">
+        <Header size="large" className="artist-real-name">
           {realname}
-        </Title>
+        </Header>
       </div>
+      <Divider />
       <div className="releases">
-        <Divider>
-          <Title level={3}>Releases</Title>
-        </Divider>
+        <Header size="medium">Releases</Header>
         <div className="filters">
-          <Form layout="inline">
-            <Form.Item label="Sort By">
-              <Select
-                value={sort}
-                onChange={(value) => {
-                  handleReplacePath({ key: 'sort', value });
-                }}
-              >
-                <Select.Option value="year">Year</Select.Option>
-                <Select.Option value="title">Title</Select.Option>
-                <Select.Option value="format">Format</Select.Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Sort Order">
-              <Select
-                value={sortOrder}
-                onChange={(value) => {
-                  handleReplacePath({ key: 'sortOrder', value });
-                }}
-              >
-                <Select.Option value="desc">Descending</Select.Option>
-                <Select.Option value="asc">Ascending</Select.Option>
-              </Select>
-            </Form.Item>
-          </Form>
+          <Select
+            value={sort}
+            onChange={(e, data) => {
+              const value = data.value as string;
+              handleReplacePath({ key: 'sort', value });
+            }}
+            options={[
+              { key: 'year', value: 'year', text: 'Year' },
+              { key: 'title', value: 'title', text: 'Title' },
+              { key: 'format', value: 'format', text: 'Format' },
+            ]}
+          />
+          <Select
+            value={sortOrder}
+            onChange={(e, data) => {
+              const value = data.value as string;
+              handleReplacePath({ key: 'sortOrder', value });
+            }}
+            options={[
+              { key: 'desc', value: 'desc', text: 'Descending' },
+              { key: 'asc', value: 'asc', text: 'Ascending' },
+            ]}
+          />
+
           <div className="spacer" />
           <Pagination
-            showSizeChanger
-            onShowSizeChange={(current, pageSize) =>
-              handleReplacePath([
-                { key: 'perPage', value: pageSize },
-                { key: 'page', value: 1 },
-              ])
-            }
-            onChange={(page) => {
-              if (page > 0) {
-                handleReplacePath({ key: 'page', value: page });
-              }
-            }}
-            defaultCurrent={page}
-            total={releasesData?.pagination?.items}
-            pageSize={parseInt(perPage || '100')}
-            pageSizeOptions={['10', '25', '50', '100']}
+            activePage={page}
+            onPageChange={handlePaginationChange}
+            totalPages={releasesData?.pagination?.pages}
           />
         </div>
         <Releases

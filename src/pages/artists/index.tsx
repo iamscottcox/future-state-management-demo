@@ -1,12 +1,6 @@
-import { Form, Pagination, PaginationProps, Select } from 'semantic-ui-react';
+import { Pagination, PaginationProps, Select } from 'semantic-ui-react';
 import { useRouter } from 'next/dist/client/router';
-import {
-  FC,
-  MouseEvent as ReactMouseEvent,
-  SyntheticEvent,
-  useContext,
-  useMemo,
-} from 'react';
+import { FC, MouseEvent as ReactMouseEvent, useContext, useMemo } from 'react';
 
 import { Artists } from 'src/components/Artists';
 import Search from 'src/components/Filters/Search';

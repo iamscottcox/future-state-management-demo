@@ -1,6 +1,5 @@
-import { Card } from 'antd';
-import Title from 'antd/lib/typography/Title';
-import { FC } from 'react';
+import { Card, Item } from 'semantic-ui-react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 
 interface OwnProps {
@@ -16,15 +15,8 @@ type Props = OwnProps;
 const StyledReleasePreview = styled.div`
   margin-bottom: 1rem;
 
-  & .ant-card-body {
-    padding: 0;
-    display: flex;
+  .item {
     align-items: center;
-
-    img {
-      width: 150px;
-      margin-right: 1rem;
-    }
   }
 `;
 
@@ -35,22 +27,65 @@ export const ReleasePreview: FC<Props> = ({
   year,
   thumb = '',
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <StyledReleasePreview key={`${mainRelease}-${id}`}>
-      <Card>
-        <img
-          className="release-preview"
-          src={
-            thumb.includes('spacer.gif')
-              ? 'https://via.placeholder.com/150'
-              : thumb
-          }
-          alt={title}
-        />
-        <Title level={5}>
-          {title} ({year})
-        </Title>
+      <Card
+        raised={isHovered}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        fluid
+      >
+        <Item.Group>
+          <Item>
+            <Item.Image
+              size="small"
+              src={
+                thumb.includes('spacer.gif')
+                  ? 'https://via.placeholder.com/150'
+                  : thumb
+              }
+            />
+
+            <Item.Content>
+              <Item.Header>
+                {title} ({year})
+              </Item.Header>
+            </Item.Content>
+          </Item>
+        </Item.Group>
       </Card>
+
+      {/*
+            <Card
+        raised={isHovered}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        fluid
+      >
+        <Link href={`/artists/${id}`}>
+          <a>
+            <Item.Group>
+              <Item>
+                <Item.Image
+                  size="small"
+                  src={
+                    coverImage.includes('spacer.gif')
+                      ? 'https://via.placeholder.com/150'
+                      : coverImage
+                  }
+                />
+
+                <Item.Content>
+                  <Item.Header>{title}</Item.Header>
+                </Item.Content>
+              </Item>
+            </Item.Group>
+          </a>
+        </Link>
+      </Card>
+      */}
     </StyledReleasePreview>
   );
 };
