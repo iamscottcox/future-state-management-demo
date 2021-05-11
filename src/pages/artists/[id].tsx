@@ -1,4 +1,4 @@
-import { Divider, Form, Pagination, Select } from 'antd';
+import { Form, Pagination, Select } from 'antd';
 import { useRouter } from 'next/dist/client/router';
 import { FC, useMemo } from 'react';
 import styled from 'styled-components';
@@ -92,9 +92,7 @@ export const ArtistPage: FC = () => {
         </Title>
       </div>
       <div className="releases">
-        <Divider>
-          <Title level={3}>Releases</Title>
-        </Divider>
+        <Title level={3}>Releases</Title>
         <div className="filters">
           <Form layout="inline">
             <Form.Item label="Sort By">

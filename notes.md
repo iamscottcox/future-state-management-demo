@@ -103,3 +103,9 @@
   * Array.prototype.fill
   * Array.prototype.from
   * String.prototype.startsWith
+* Classes prefixed with `bp3`
+  * Could be an issue when upgrading to future versions?
+* Advocates using `<button>` over `<a>` in `<Navbar />`
+* `<Popover />` is deprecated. Use `<Popover2 />` 🤮
+* Passes content as a prop a LOT
+  * Bit of an anti-pattern because it prevents flexibility in composability.
