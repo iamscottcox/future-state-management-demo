@@ -86,3 +86,15 @@
   * If we absolutely MUST use Sass, there's a guide for doing that here: https://gist.github.com/Kruemelkatze/057f01b8e15216ae707dc7e6c9061ef7. It's a bit long-winded though.
   * Requires use of @zeit/next-less which is deprecated and disables Next.js's in-built CSS loaders.
     * Might not be a problem if we're using styled-components?
+
+## Blueprint JS
+### Pros
+* Written in TypeScript
+  * Has its own `*.d.ts` files
+### Cons
+* Requires the following:
+  * Map
+  * Set
+  * Array.prototype.fill
+  * Array.prototype.from
+  * String.prototype.startsWith

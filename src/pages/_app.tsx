@@ -10,7 +10,8 @@ import { Page } from 'src/components/Page';
 import store, { persistor } from 'src/state';
 import { ArtistSearchContextProvider } from 'src/state/contexts/artistSearch';
 
-import 'src/styles.less';
+import '@blueprintjs/icons/lib/css/blueprint-icons.css';
+import '@blueprintjs/core/lib/css/blueprint.css';
 
 const queryClient = new QueryClient();
 

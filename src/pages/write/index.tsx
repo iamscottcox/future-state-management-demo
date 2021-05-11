@@ -1,4 +1,5 @@
-import { Button, Tag, Form, Input } from 'antd';
+import { Tag, Form, Input } from 'antd';
+import { Button } from '@blueprintjs/core';
 import Title from 'antd/lib/typography/Title';
 import { useWillUnmount } from 'beautiful-react-hooks';
 import { ChangeEvent, FC, useMemo, useState } from 'react';
@@ -73,9 +74,7 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
           />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
-          <Button type="primary" block={false}>
-            Submit
-          </Button>
+          <Button>Submit</Button>
         </Form.Item>
       </Form>
     </div>
