@@ -91,5 +91,10 @@
 ## Semantic UI React
 
 ### Pros
-
+* Easily composable components
 ### Cons
+* Does everything Ant Design does, but worse...?
+* A bit unintuitive at times.
+* Exact same theming issues as Ant Design
+  * Uses Less as well (whyyyyyy?)
+  * Requires deprecated @zeit/next-less plugin
