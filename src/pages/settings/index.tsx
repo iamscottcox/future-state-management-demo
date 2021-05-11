@@ -1,5 +1,5 @@
-import { Checkbox, Divider, Form, Select } from 'antd';
-import { FC } from 'react';
+import { Divider, Form } from 'antd';
+import { ChangeEvent, FC } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -20,6 +20,8 @@ import {
 import Title from 'antd/lib/typography/Title';
 import { SelectValue } from 'antd/lib/select';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import { Checkbox, FormGroup, HTMLSelect } from '@blueprintjs/core';
+import { CHECKBOX } from '@blueprintjs/core/lib/esm/common/classes';
 
 interface StateProps {
   defaultCurrency: AppState['settings']['defaultCurrency'];
@@ -28,9 +30,9 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setDefaultCurrency: (value: SelectValue) => void;
-  setDefaultRegion: (value: SelectValue) => void;
-  setShowCurrencySymbol: (e: CheckboxChangeEvent) => void;
+  setDefaultCurrency: (e: ChangeEvent<HTMLSelectElement>) => void;
+  setDefaultRegion: (e: ChangeEvent<HTMLSelectElement>) => void;
+  setShowCurrencySymbol: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface OwnProps {}
@@ -64,21 +66,47 @@ export const SettingsPage: FC<Props> = ({
 }) => {
   return (
     <StyledSettingsPage className="settings-page">
-      <Title level={1}>Settings</Title>
-      <Divider orientation="left">
-        <Title level={3}>Currencies</Title>
-      </Divider>
-      <Form labelCol={{ span: 6 }}>
+      <h1>Settings</h1>
+      <h3>Currencies</h3>
+      <FormGroup inline label="Default Currency">
+        <HTMLSelect value={defaultCurrency} onChange={setDefaultCurrency}>
+          {CURRENCIES.map((currency) => {
+            return (
+              <option key={currency} value={currency}>
+                {currency}
+              </option>
+            );
+          })}
+        </HTMLSelect>
+      </FormGroup>
+      <FormGroup
+        inline
+        label="Show Currency Symbol?"
+        labelFor="show-currency-symbol-checkbox"
+      >
+        <Checkbox
+          id="show-currency-symbol-checkbox"
+          checked={showCurrencySymbol}
+          onChange={setShowCurrencySymbol}
+        />
+      </FormGroup>
+      <h3>Regions</h3>
+      <FormGroup inline label="Default Region">
+        <HTMLSelect value={defaultRegion} onChange={setDefaultRegion}>
+          {REGIONS.map((region) => {
+            return (
+              <option key={region} value={region}>
+                {region}
+              </option>
+            );
+          })}
+        </HTMLSelect>
+      </FormGroup>
+      {/* <Form.Group labelCol={{ span: 6 }}>
         <Form.Item label="Default Currency">
-          <Select value={defaultCurrency} onChange={setDefaultCurrency}>
-            {CURRENCIES.map((currency) => {
-              return (
-                <Select.Option key={currency} value={currency}>
-                  {currency}
-                </Select.Option>
-              );
-            })}
-          </Select>
+          
+
+
         </Form.Item>
         <Form.Item label="Show Currency Symbol">
           <Checkbox
@@ -86,10 +114,8 @@ export const SettingsPage: FC<Props> = ({
             onChange={setShowCurrencySymbol}
           />
         </Form.Item>
-      </Form>
-      <Divider orientation="left">
-        <Title level={3}>Regions</Title>
-      </Divider>
+      </Form.Group>
+      <h3>Regions</h3>
       <Form labelCol={{ span: 6 }}>
         <Form.Item label="Default Region">
           <Select value={defaultRegion} onChange={setDefaultRegion}>
@@ -102,7 +128,7 @@ export const SettingsPage: FC<Props> = ({
             })}
           </Select>
         </Form.Item>
-      </Form>
+      </Form> */}
     </StyledSettingsPage>
   );
 };
@@ -114,11 +140,11 @@ const mapStateToProps = (state: AppState): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
-  setDefaultCurrency(value) {
-    dispatch(setDefaultCurrency(value));
+  setDefaultCurrency(e) {
+    dispatch(setDefaultCurrency(e.target.value));
   },
-  setDefaultRegion(value) {
-    dispatch(setDefaultRegion(value));
+  setDefaultRegion(e) {
+    dispatch(setDefaultRegion(e.target.value));
   },
   setShowCurrencySymbol(e) {
     dispatch(setShowCurrencySymbol(e.target.checked));

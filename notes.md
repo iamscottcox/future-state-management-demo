@@ -109,3 +109,4 @@
 * `<Popover />` is deprecated. Use `<Popover2 />` 🤮
 * Passes content as a prop a LOT
   * Bit of an anti-pattern because it prevents flexibility in composability.
+* `<Select />` component requires that you specify a new iteration of the component for each type supplied to it.
