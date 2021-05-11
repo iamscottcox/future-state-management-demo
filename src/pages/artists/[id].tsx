@@ -32,7 +32,7 @@ const StyledArtist = styled.div`
   .filters {
     display: flex;
     margin-bottom: 2rem;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
 
     > * {
@@ -98,6 +98,8 @@ export const ArtistPage: FC = () => {
     handleReplacePath({ key: 'page', value: activePage });
   };
 
+  const pages = releasesData?.pagination?.pages || 0;
+
   if (artistIsLoading) return <Loading />;
   if (artistError) return <p>There was an error: {artistError.message}</p>;
 
@@ -141,10 +143,30 @@ export const ArtistPage: FC = () => {
           />
 
           <div className="spacer" />
+          <div className="per-page">
+            <label>Per Page</label>
+            <Select
+              fluid
+              value={perPage}
+              onChange={(e, data) => {
+                const value = (data.value as string) || '1';
+                handleReplacePath([
+                  { key: 'page', value: 1 },
+                  { key: 'perPage', value },
+                ]);
+              }}
+              options={[
+                { key: '10', value: '10', text: '10' },
+                { key: '25', value: '25', text: '25' },
+                { key: '50', value: '50', text: '50' },
+                { key: '100', value: '100', text: '100' },
+              ]}
+            />
+          </div>
           <Pagination
             activePage={page}
             onPageChange={handlePaginationChange}
-            totalPages={releasesData?.pagination?.pages}
+            totalPages={pages}
           />
         </div>
         <Releases
