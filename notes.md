@@ -95,6 +95,7 @@
 ### Cons
 * Does everything Ant Design does, but worse...?
 * A bit unintuitive at times.
-* Exact same theming issues as Ant Design
+* Theming is more difficult than with any others
+  * Requires building your own CSS bundle via Gulp
   * Uses Less as well (whyyyyyy?)
-  * Requires deprecated @zeit/next-less plugin
+    * Requires deprecated @zeit/next-less plugin
