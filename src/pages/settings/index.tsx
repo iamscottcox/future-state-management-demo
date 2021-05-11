@@ -1,5 +1,14 @@
-import { Checkbox, Divider, Form, Select } from 'antd';
-import { FC } from 'react';
+import {
+  Checkbox,
+  Form,
+  Select,
+  Divider,
+  Header,
+  DropdownItemProps,
+  DropdownProps,
+  CheckboxProps,
+} from 'semantic-ui-react';
+import { FC, FormEvent, SyntheticEvent, useMemo } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
@@ -17,9 +26,6 @@ import {
   setDefaultRegion,
   setShowCurrencySymbol,
 } from 'src/state/slices/settings';
-import Title from 'antd/lib/typography/Title';
-import { SelectValue } from 'antd/lib/select';
-import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
 interface StateProps {
   defaultCurrency: AppState['settings']['defaultCurrency'];
@@ -28,9 +34,18 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  setDefaultCurrency: (value: SelectValue) => void;
-  setDefaultRegion: (value: SelectValue) => void;
-  setShowCurrencySymbol: (e: CheckboxChangeEvent) => void;
+  setDefaultCurrency: (
+    value: SyntheticEvent<HTMLElement, Event>,
+    data: DropdownProps
+  ) => void;
+  setDefaultRegion: (
+    value: SyntheticEvent<HTMLElement, Event>,
+    data: DropdownProps
+  ) => void;
+  setShowCurrencySymbol: (
+    e: FormEvent<HTMLInputElement>,
+    data: CheckboxProps
+  ) => void;
 }
 
 interface OwnProps {}
@@ -54,6 +69,16 @@ const StyledSettingsPage = styled.div`
   } */
 `;
 
+const createSemanticSelectOption = (
+  value: string,
+  text?: string = value,
+  key?: string = value
+): DropdownItemProps => ({
+  value,
+  text,
+  key,
+});
+
 export const SettingsPage: FC<Props> = ({
   defaultCurrency,
   setDefaultCurrency,
@@ -62,46 +87,49 @@ export const SettingsPage: FC<Props> = ({
   showCurrencySymbol,
   setShowCurrencySymbol,
 }) => {
+  const currencyOptions = useMemo<DropdownItemProps[]>(
+    () => CURRENCIES.map((value) => createSemanticSelectOption(value)),
+    []
+  );
+
+  const regionsOptions = useMemo<DropdownItemProps[]>(
+    () => REGIONS.map((value) => createSemanticSelectOption(value)),
+    []
+  );
+
   return (
     <StyledSettingsPage className="settings-page">
-      <Title level={1}>Settings</Title>
-      <Divider orientation="left">
-        <Title level={3}>Currencies</Title>
-      </Divider>
-      <Form labelCol={{ span: 6 }}>
-        <Form.Item label="Default Currency">
-          <Select value={defaultCurrency} onChange={setDefaultCurrency}>
-            {CURRENCIES.map((currency) => {
-              return (
-                <Select.Option key={currency} value={currency}>
-                  {currency}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        </Form.Item>
-        <Form.Item label="Show Currency Symbol">
+      <Header size="huge">Settings</Header>
+      <Divider />
+      <Header size="medium">Currencies</Header>
+      <Form>
+        <Form.Field>
+          <label>Default Currency</label>
+          <Select
+            value={defaultCurrency}
+            onChange={setDefaultCurrency}
+            options={currencyOptions}
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Show Currency Symbol</label>
           <Checkbox
             checked={showCurrencySymbol}
             onChange={setShowCurrencySymbol}
           />
-        </Form.Item>
+        </Form.Field>
       </Form>
-      <Divider orientation="left">
-        <Title level={3}>Regions</Title>
-      </Divider>
-      <Form labelCol={{ span: 6 }}>
-        <Form.Item label="Default Region">
-          <Select value={defaultRegion} onChange={setDefaultRegion}>
-            {REGIONS.map((region) => {
-              return (
-                <Select.Option key={region} value={region}>
-                  {region}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        </Form.Item>
+      <Divider />
+      <Header size="medium">Regions</Header>
+      <Form>
+        <Form.Field>
+          <label>Default Region</label>
+          <Select
+            value={defaultRegion}
+            onChange={setDefaultRegion}
+            options={regionsOptions}
+          />
+        </Form.Field>
       </Form>
     </StyledSettingsPage>
   );
@@ -114,14 +142,14 @@ const mapStateToProps = (state: AppState): StateProps => ({
 });
 
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => ({
-  setDefaultCurrency(value) {
+  setDefaultCurrency(e, { value }) {
     dispatch(setDefaultCurrency(value));
   },
-  setDefaultRegion(value) {
+  setDefaultRegion(e, { value }) {
     dispatch(setDefaultRegion(value));
   },
-  setShowCurrencySymbol(e) {
-    dispatch(setShowCurrencySymbol(e.target.checked));
+  setShowCurrencySymbol(e, { checked }) {
+    dispatch(setShowCurrencySymbol(checked));
   },
 });
 
