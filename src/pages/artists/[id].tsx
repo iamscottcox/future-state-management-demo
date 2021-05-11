@@ -33,6 +33,7 @@ const StyledArtist = styled.div`
     display: flex;
     margin-bottom: 2rem;
     align-items: center;
+    justify-content: center;
 
     > * {
       margin-right: 0.5rem;

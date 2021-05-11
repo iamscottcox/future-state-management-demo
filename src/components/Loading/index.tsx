@@ -17,7 +17,7 @@ type Props = OwnProps;
 export const Loading: FC<Props> = ({ isLoading = true }) => {
   return isLoading ? (
     <StyledCircularProgress>
-      <Loader active={isLoading} centered inline />
+      <Loader active={isLoading} size="large" centered inline />
     </StyledCircularProgress>
   ) : null;
 };

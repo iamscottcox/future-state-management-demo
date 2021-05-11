@@ -1,5 +1,5 @@
 import { Card, Item } from 'semantic-ui-react';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 interface OwnProps {
@@ -27,16 +27,9 @@ export const ReleasePreview: FC<Props> = ({
   year,
   thumb = '',
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <StyledReleasePreview key={`${mainRelease}-${id}`}>
-      <Card
-        raised={isHovered}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        fluid
-      >
+      <Card fluid>
         <Item.Group>
           <Item>
             <Item.Image
@@ -56,36 +49,6 @@ export const ReleasePreview: FC<Props> = ({
           </Item>
         </Item.Group>
       </Card>
-
-      {/*
-            <Card
-        raised={isHovered}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        fluid
-      >
-        <Link href={`/artists/${id}`}>
-          <a>
-            <Item.Group>
-              <Item>
-                <Item.Image
-                  size="small"
-                  src={
-                    coverImage.includes('spacer.gif')
-                      ? 'https://via.placeholder.com/150'
-                      : coverImage
-                  }
-                />
-
-                <Item.Content>
-                  <Item.Header>{title}</Item.Header>
-                </Item.Content>
-              </Item>
-            </Item.Group>
-          </a>
-        </Link>
-      </Card>
-      */}
     </StyledReleasePreview>
   );
 };
