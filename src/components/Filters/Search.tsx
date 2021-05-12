@@ -13,7 +13,6 @@ export const Search: FC<Props> = ({ onSubmit, initialValue = '' }) => {
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('submit');
     onSubmit(value);
   };
 

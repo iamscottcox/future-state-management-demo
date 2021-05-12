@@ -1,14 +1,19 @@
-import { Pagination } from 'antd';
+import Title from 'antd/lib/typography/Title';
+import { HTMLSelect } from '@blueprintjs/core';
 import { useRouter } from 'next/dist/client/router';
 import { FC, useContext, useMemo } from 'react';
+import styled from 'styled-components';
 
+// components
 import { Artists } from 'src/components/Artists';
 import Search from 'src/components/Filters/Search';
+import Pagination from 'src/components/Pagination';
+// hooks
 import { useArtists } from 'src/hooks/artists';
+// libs
 import { parseSearchQuery, replacePath } from 'src/libs/paths';
+// state
 import { ArtistSearchContext } from 'src/state/contexts/artistSearch';
-import styled from 'styled-components';
-import Title from 'antd/lib/typography/Title';
 
 const StyledArtistsPage = styled.div`
   h1 {
@@ -18,9 +23,14 @@ const StyledArtistsPage = styled.div`
   .filters {
     display: flex;
     margin-bottom: 2rem;
+    align-items: flex-end;
 
     .spacer {
       flex: 1 1 auto;
+    }
+
+    .per-page-select-wrapper {
+      margin-right: 1rem;
     }
   }
 `;
@@ -40,7 +50,7 @@ export const ArtistsPage: FC = () => {
     perPage,
   });
 
-  const items = data?.pagination?.items || 0;
+  const pages = data?.pagination?.pages || 0;
 
   const handleSearchSubmit = (value: string) => {
     setArtistSearch(value);
@@ -51,25 +61,23 @@ export const ArtistsPage: FC = () => {
     <StyledArtistsPage>
       <Title level={1}>Artists</Title>
       <div className="filters">
-        <div>
-          <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />
-        </div>
+        <Search initialValue={artistSearch} onSubmit={handleSearchSubmit} />
         <div className="spacer" />
-        <Pagination
-          showSizeChanger
-          onChange={(page) => {
-            if (page > 0) {
-              handleReplacePath({ key: 'page', value: page });
-            }
-          }}
-          onShowSizeChange={(current, pageSize) => {
-            setPerPage(pageSize);
-            handleReplacePath({ key: 'page', value: 1 });
-          }}
-          defaultCurrent={page}
-          total={items}
-          pageSizeOptions={['10', '25', '50', '100']}
-        />
+        <div className="per-page-select-wrapper">
+          <p>
+            <label>Per Page</label>
+          </p>
+          <HTMLSelect
+            value={perPage}
+            onChange={(e) => setPerPage(e.target.value)}
+          >
+            <option value={10}>10</option>
+            <option value={25}>25</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
+          </HTMLSelect>
+        </div>
+        <Pagination pages={pages} page={page} />
       </div>
       <Artists artists={data?.results} isLoading={isLoading} error={error} />
     </StyledArtistsPage>

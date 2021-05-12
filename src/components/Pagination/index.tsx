@@ -5,6 +5,8 @@ import { usePagination } from 'src/hooks/pagination';
 import { range } from 'src/libs/numbers';
 import { createNewPath, replacePath } from 'src/libs/paths';
 import { useRouter } from 'next/dist/client/router';
+import { Button, ButtonGroup } from '@blueprintjs/core';
+import styled from 'styled-components';
 
 interface OwnProps {
   page?: number;
@@ -12,6 +14,10 @@ interface OwnProps {
 }
 
 type Props = OwnProps;
+
+const StyledButtonGroup = styled(ButtonGroup)`
+  display: block;
+`;
 
 export const Pagination: FC<Props> = ({
   page: initialPage = 1,
@@ -55,41 +61,45 @@ export const Pagination: FC<Props> = ({
   const handleReplacePath = replacePath(router);
 
   return (
-    <BootstrapPagination>
-      <BootstrapPagination.First
+    <StyledButtonGroup>
+      <Button
+        icon="fast-backward"
         disabled={page === 1}
         onClick={() => handleReplacePath({ key: 'page', value: 1 })}
       />
-      <BootstrapPagination.Prev
+      <Button
+        icon="caret-left"
         disabled={!prevPageEnabled}
         onClick={() => handleReplacePath({ key: 'page', value: prevPage })}
       />
-      {isLess && <BootstrapPagination.Ellipsis disabled />}
+      {isLess && <Button disabled>...</Button>}
       {pagesArray.map((number) => {
         return (
-          <BootstrapPagination.Item
+          <Button
             key={number}
             disabled={page === number}
             onClick={() => handleReplacePath({ key: 'page', value: number })}
           >
             {number}
-          </BootstrapPagination.Item>
+          </Button>
         );
       })}
-      {isMore && <BootstrapPagination.Ellipsis disabled />}
-      <BootstrapPagination.Next
+      {isMore && <Button disabled>...</Button>}
+      <Button
+        icon="caret-right"
         disabled={!nextPageEnabled}
         onClick={() => {
           handleReplacePath({ key: 'page', value: nextPage });
         }}
       />
-      <BootstrapPagination.Last
+      <Button
+        icon="fast-forward"
         disabled={page === pages}
         onClick={() => {
           handleReplacePath({ key: 'page', value: pages });
         }}
       />
-    </BootstrapPagination>
+    </StyledButtonGroup>
   );
 };
 
