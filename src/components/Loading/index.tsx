@@ -1,4 +1,4 @@
-import { Spin } from 'antd';
+import { Spinner } from '@blueprintjs/core';
 import { FC } from 'react';
 import styled from 'styled-components';
 
@@ -17,7 +17,7 @@ type Props = OwnProps;
 export const Loading: FC<Props> = ({ isLoading = true }) => {
   return isLoading ? (
     <StyledCircularProgress>
-      <Spin size="large" />
+      <Spinner size={60} />
     </StyledCircularProgress>
   ) : null;
 };
