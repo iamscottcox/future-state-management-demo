@@ -35,7 +35,7 @@ const StyledArtist = styled.div`
     > * {
       margin-right: 1rem;
 
-      &::last-child {
+      &:last-child {
         margin-right: 0;
       }
     }
