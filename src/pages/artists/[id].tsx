@@ -1,15 +1,18 @@
-import { Form, Pagination, Select } from 'antd';
 import { useRouter } from 'next/dist/client/router';
 import { FC, useMemo } from 'react';
 import styled from 'styled-components';
 
+// components
 import { Loading } from 'src/components/Loading';
+import Pagination from 'src/components/Pagination';
 import Releases from 'src/components/Releases';
+// hooks
 import { useArtistById } from 'src/hooks/artists';
 import { useReleases } from 'src/hooks/releases';
+// libs
 import { getPrimaryArtistImage } from 'src/libs/artists';
 import { parseSearchQuery, replacePath } from 'src/libs/paths';
-import Title from 'antd/lib/typography/Title';
+import { HTMLSelect } from '@blueprintjs/core';
 
 const StyledArtist = styled.div`
   .jumbotron {
@@ -27,7 +30,15 @@ const StyledArtist = styled.div`
   .filters {
     display: flex;
     margin-bottom: 2rem;
-    align-items: center;
+    align-items: flex-end;
+
+    > * {
+      margin-right: 1rem;
+
+      &::last-child {
+        margin-right: 0;
+      }
+    }
 
     .spacer {
       flex: 1 1 auto;
@@ -77,67 +88,71 @@ export const ArtistPage: FC = () => {
     [images]
   );
 
+  const pages = releasesData?.pagination?.pages || 0;
+
   if (artistIsLoading) return <Loading />;
   if (artistError) return <p>There was an error: {artistError.message}</p>;
 
   return (
     <StyledArtist>
       <div className="jumbotron">
-        <Title level={1} className="artist-name">
-          {name}
-        </Title>
+        <h1 className="artist-name">{name}</h1>
         <img src={uri} />
-        <Title level={2} className="artist-real-name">
-          {realname}
-        </Title>
+        <h2 className="artist-real-name">{realname}</h2>
       </div>
       <div className="releases">
-        <Title level={3}>Releases</Title>
+        <h3>Releases</h3>
         <div className="filters">
-          <Form layout="inline">
-            <Form.Item label="Sort By">
-              <Select
-                value={sort}
-                onChange={(value) => {
-                  handleReplacePath({ key: 'sort', value });
-                }}
-              >
-                <Select.Option value="year">Year</Select.Option>
-                <Select.Option value="title">Title</Select.Option>
-                <Select.Option value="format">Format</Select.Option>
-              </Select>
-            </Form.Item>
-            <Form.Item label="Sort Order">
-              <Select
-                value={sortOrder}
-                onChange={(value) => {
-                  handleReplacePath({ key: 'sortOrder', value });
-                }}
-              >
-                <Select.Option value="desc">Descending</Select.Option>
-                <Select.Option value="asc">Ascending</Select.Option>
-              </Select>
-            </Form.Item>
-          </Form>
+          <div>
+            <p>
+              <label>Sort By</label>
+            </p>
+            <HTMLSelect
+              value={sort}
+              onChange={(e) => {
+                handleReplacePath({ key: 'sort', value: e.target.value });
+              }}
+            >
+              <option value="year">Year</option>
+              <option value="title">Title</option>
+              <option value="format">Format</option>
+            </HTMLSelect>
+          </div>
+          <div>
+            <p>
+              <label>Sort Order</label>
+            </p>
+            <HTMLSelect
+              value={sortOrder}
+              onChange={(e) => {
+                handleReplacePath({ key: 'sortOrder', value: e.target.value });
+              }}
+            >
+              <option value="desc">Descending</option>
+              <option value="asc">Ascending</option>
+            </HTMLSelect>
+          </div>
           <div className="spacer" />
-          <Pagination
-            showSizeChanger
-            onShowSizeChange={(current, pageSize) =>
-              handleReplacePath([
-                { key: 'perPage', value: pageSize },
-                { key: 'page', value: 1 },
-              ])
-            }
-            onChange={(page) => {
-              if (page > 0) {
-                handleReplacePath({ key: 'page', value: page });
+          <div className="per-page-select-wrapper">
+            <p>
+              <label>Per Page</label>
+            </p>
+            <HTMLSelect
+              value={perPage}
+              onChange={(e) =>
+                handleReplacePath([
+                  { key: 'perPage', value: e.target.value },
+                  { key: 'page', value: 1 },
+                ])
               }
-            }}
-            defaultCurrent={page}
-            total={releasesData?.pagination?.items}
-            pageSize={parseInt(perPage || '100')}
-            pageSizeOptions={['10', '25', '50', '100']}
-          />
+            >
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </HTMLSelect>
+          </div>
+          <Pagination pages={pages} page={page} />
         </div>
         <Releases
           releases={releasesData?.releases}
