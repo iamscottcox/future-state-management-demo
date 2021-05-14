@@ -1,5 +1,5 @@
 import { Card, Typography } from '@material-ui/core';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 
 interface OwnProps {
@@ -20,6 +20,7 @@ const StyledReleasePreview = styled.div`
     display: flex;
     align-items: center;
     flex: 1 1 auto;
+    min-height: 100px;
 
     img {
       width: 150px;
@@ -35,19 +36,13 @@ export const ReleasePreview: FC<Props> = ({
   year,
   thumb = '',
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <StyledReleasePreview
-      key={`${mainRelease}-${id}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Card raised={isHovered}>
+    <StyledReleasePreview key={`${mainRelease}-${id}`}>
+      <Card>
         <img
           className="release-preview"
           src={
-            thumb.includes('spacer.gif')
+            thumb && thumb.includes('spacer.gif')
               ? 'https://via.placeholder.com/150'
               : thumb
           }
