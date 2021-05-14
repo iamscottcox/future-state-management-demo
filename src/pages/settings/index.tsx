@@ -1,4 +1,10 @@
-import { Checkbox, InputLabel, MenuItem, Select } from '@material-ui/core';
+import {
+  Checkbox,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@material-ui/core';
 import { ChangeEvent, FC } from 'react';
 import { connect } from 'react-redux';
 import { CURRENCIES } from 'src/constants/currencies';
@@ -41,6 +47,7 @@ const StyledSettingsPage = styled.div`
   fieldset {
     margin-bottom: 1rem;
     display: flex;
+    border: none;
 
     section {
       display: flex;
@@ -69,7 +76,7 @@ export const SettingsPage: FC<Props> = ({
   return (
     <StyledSettingsPage className="settings-page">
       <div className="default-currency-container">
-        <h3>Currencies</h3>
+        <Typography variant="h5">Currencies</Typography>
         <fieldset>
           <section>
             <InputLabel
@@ -104,19 +111,9 @@ export const SettingsPage: FC<Props> = ({
               value={showCurrencySymbol}
               onChange={setShowCurrencySymbol}
             />
-            {/* <label htmlFor="show-currency-symbol">Currency Symbol</label>
-            <p>
-              Show?{' '}
-              <input
-                checked={showCurrencySymbol}
-                onChange={setShowCurrencySymbol}
-                id="show-currency-symbol"
-                type="checkbox"
-              />
-            </p> */}
           </section>
         </fieldset>
-        <h3>Regions</h3>
+        <Typography variant="h5">Regions</Typography>
         <fieldset>
           <section>
             <InputLabel id="default-region-label" htmlFor="default-region">
