@@ -20,13 +20,14 @@ type Props = StateProps & DispatchProps & OwnProps;
 
 const StyledWritePage = styled.div`
   form {
-    display: flex;
-    flex-direction: column;
-
     fieldset {
       align-items: center;
       display: flex;
       border: none;
+
+      &:last-of-type {
+        margin-bottom: 2rem;
+      }
 
       .editing-icon {
         color: white;
@@ -46,6 +47,10 @@ const StyledWritePage = styled.div`
       .MuiFormControl-root {
         flex: 1 1 auto;
       }
+    }
+
+    button {
+      margin-left: 1em;
     }
   }
 `;
@@ -90,7 +95,7 @@ export const WritePage: FC<Props> = ({ draft, setDraft }) => {
             label="Body"
             error={editingBody}
             value={body}
-            multiline={true}
+            multiline
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setBody(e.target.value);
             }}
