@@ -50,9 +50,8 @@ const StyledSettingsPage = styled.div`
     border: none;
 
     section {
-      display: flex;
-      flex-direction: column;
       margin-right: 1rem;
+      text-align: center;
 
       label {
         margin-bottom: 0.5rem;

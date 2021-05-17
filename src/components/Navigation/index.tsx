@@ -15,19 +15,22 @@ import styled from 'styled-components';
 import store from 'src/state';
 import theme from 'src/theme';
 import { useState } from 'react';
-import { replacePath } from 'src/libs/paths';
 import { useRouter } from 'next/dist/client/router';
-import { Title } from '@material-ui/icons';
 
 const StyledNavigation = styled.div`
   width: 100%;
   display: flex;
+  align-items: center;
   background: ${theme.palette.primary.main};
   padding: 0.5rem;
 
   a {
     padding: 0.5rem;
     color: white;
+  }
+
+  .navbar-site-logo {
+    margin-right: 3rem;
   }
 
   .spacer {
@@ -55,6 +58,9 @@ export const Navigation = () => {
     <AppBar position="fixed">
       <Toolbar>
         <StyledNavigation>
+          <Typography variant="h6" className="navbar-site-logo" noWrap>
+            Demo
+          </Typography>
           <Link href="/artists">
             <a>
               <Typography variant="body1">Artists</Typography>

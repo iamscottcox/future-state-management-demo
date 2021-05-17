@@ -26,8 +26,6 @@ export const Artists: FC<Props> = ({
   if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
 
-  console.log('artists', artists);
-
   return (
     <StyledArtists>
       {artists &&

@@ -1,9 +1,9 @@
 export interface FetchReleasesOptions {
-  id?: string;
+  id?: string | number;
   sort?: string;
   sortOrder?: string;
-  pageNumber?: number;
-  perPage?: number;
+  pageNumber?: string | number;
+  perPage?: string | number;
 }
 
 export type FetchReleasesQueryKey = [string, FetchReleasesOptions];
