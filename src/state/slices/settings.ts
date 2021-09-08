@@ -34,8 +34,6 @@ export const {
   setDefaultCurrency,
   setDefaultRegion,
   setShowCurrencySymbol,
-  setReleasesSort,
-  setReleasesSortDirection,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
